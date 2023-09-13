@@ -1,0 +1,14 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.2.0
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: leductrungxf@gmail.com
+author_name: Trung Le
+has_binder: false
+has_settings: false
+kind: frontend
+labextension_name: ipecharts
+project_short_description: A JupyterLab extension.
+python_name: ipecharts
+repository: https://github.com/trungleduc/ipecharts
+test: false
+
