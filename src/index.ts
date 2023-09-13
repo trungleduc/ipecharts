@@ -1,18 +1,6 @@
-import {
-  JupyterFrontEnd,
-  JupyterFrontEndPlugin
-} from '@jupyterlab/application';
+import { examplePlugin } from './plugin';
 
-/**
- * Initialization data for the ipecharts extension.
- */
-const plugin: JupyterFrontEndPlugin<void> = {
-  id: 'ipecharts:plugin',
-  description: 'A JupyterLab extension.',
-  autoStart: true,
-  activate: (app: JupyterFrontEnd) => {
-    console.log('JupyterLab extension ipecharts is activated!');
-  }
-};
+export * from './version';
+export * from './widget';
 
-export default plugin;
+export default [examplePlugin];

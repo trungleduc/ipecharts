@@ -54,6 +54,7 @@
         "watch:labextension": "jupyter labextension watch ."
     },
     "dependencies": {
+        "@jupyter-widgets/base": "^1.1.10 || ^2 || ^3 || ^4 || ^5 || ^6",
         "@jupyterlab/application": "^4.0.0"
     },
     "devDependencies": {
@@ -90,7 +91,13 @@
     },
     "jupyterlab": {
         "extension": true,
-        "outputDir": "ipecharts/labextension"
+        "outputDir": "ipecharts/labextension",
+        "sharedPackages": {
+            "@jupyter-widgets/base": {
+                "bundled": false,
+                "singleton": true
+            }
+        }
     },
     "eslintIgnore": [
         "node_modules",
