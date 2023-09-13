@@ -119,3 +119,6 @@ dmypy.json
 
 # Yarn cache
 .yarn/
+
+generate_code/option.json
+_output/

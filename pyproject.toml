@@ -1,5 +1,10 @@
 [build-system]
-requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-nodejs-version"]
+requires = [
+    "hatchling>=1.5.0",
+    "jupyterlab>=4.0.0,<5",
+    "hatch-nodejs-version",
+    "markdownify",
+]
 build-backend = "hatchling.build"
 
 [project]
@@ -21,8 +26,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
-dependencies = [
-]
+dependencies = []
 dynamic = ["version", "description", "authors", "urls", "keywords"]
 
 [tool.hatch.version]
@@ -49,7 +53,10 @@ ensured-targets = [
     "ipecharts/labextension/static/style.js",
     "ipecharts/labextension/package.json",
 ]
-skip-if-exists = ["ipecharts/labextension/static/style.js"]
+skip-if-exists = [
+    "ipecharts/labextension/static/style.js",
+    "ipecharts/_option.py",
+]
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
@@ -68,7 +75,7 @@ version_cmd = "hatch version"
 before-build-npm = [
     "python -m pip install 'jupyterlab>=4.0.0,<5'",
     "jlpm",
-    "jlpm build:prod"
+    "jlpm build:prod",
 ]
 before-build-python = ["jlpm clean:all"]
 

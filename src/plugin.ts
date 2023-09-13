@@ -29,8 +29,6 @@ function activateWidgetExtension(
   app: JupyterFrontEnd,
   registry: IJupyterWidgetRegistry
 ): void {
-  console.log('register widget');
-  
   registry.registerWidget({
     name: MODULE_NAME,
     version: MODULE_VERSION,

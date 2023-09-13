@@ -2,7 +2,6 @@ from ipywidgets import DOMWidget
 from traitlets import Unicode
 from ._frontend import module_name, module_version
 
-
 class ExampleWidget(DOMWidget):
     """TODO: Add docstring here
     """
