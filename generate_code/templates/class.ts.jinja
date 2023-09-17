@@ -1,0 +1,25 @@
+import { WidgetModel, ISerializers } from '@jupyter-widgets/base';
+import { MODULE_NAME, MODULE_VERSION } from '../version';
+
+export class {{class_name}} extends WidgetModel {
+  defaults() {
+    return {
+      ...super.defaults(),
+      _model_name: {{class_name}}.model_name,
+      _model_module: {{class_name}}.model_module,
+      _model_module_version: {{class_name}}.model_module_version{{ "," if len(defaults)>0 else "" }}
+      {%- for default in defaults %}
+      {{ default['name'] }}: {{default['value']  }}{{ "," if not loop.last else "" }}
+      {%- endfor %}
+    };
+  }
+
+  static serializers: ISerializers = {
+    ...WidgetModel.serializers
+  };
+
+  static model_name = '{{model_name}}';
+  static model_module = MODULE_NAME;
+  static model_module_version = MODULE_VERSION;
+}
+

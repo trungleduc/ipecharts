@@ -30,7 +30,7 @@ class TraitFactory:
                 if props_type == "string" or "string" in props_type:
                     default = ensure_string(str(default))
 
-                code = f"{name} = {self.type_map[props_type]}({default}, allow_none=True, {help_str if len(help_str) > 0 else ''}).tag(sync=True)"
+                code = f"{name} = {self.type_map[props_type]}(default_value={default}, allow_none=True, {help_str if len(help_str) > 0 else ''}).tag(sync=True)"
             else:
                 code = f"{name} = {self.type_map[props_type]}({help_str if len(help_str) > 0 else ''}).tag(sync=True)"
         else:
@@ -54,12 +54,12 @@ class TraitFactory:
         help_str = self._help_from_desc(desc)
         for single_type in props_type:
             klass = self.type_map.get(single_type, "Any")
-            trait += f"Instance({klass}, allow_none=True),"
+            trait += f"{klass}(allow_none=True),"
         if default is not None:
             if props_type == "string" or "string" in props_type:
                 default = ensure_string(str(default))
 
-            code = f"{name } = Union([{trait}], {default}, allow_none=True, {help_str if len(help_str) > 0 else ''}).tag(sync=True)"
+            code = f"{name } = Union([{trait}], default_value={default}, {help_str if len(help_str) > 0 else ''}).tag(sync=True)"
         else:
             code = f"{name } = Union([{trait}], {help_str if len(help_str) > 0 else ''}).tag(sync=True)"
 

@@ -14,7 +14,7 @@ const EXTENSION_ID = 'ipecharts:plugin';
 /**
  * The example plugin.
  */
-export const examplePlugin: JupyterFrontEndPlugin<void> = {
+export const widgetPlugin: JupyterFrontEndPlugin<void> = {
   id: EXTENSION_ID,
   description: 'A JupyterLab extension.',
   requires: [IJupyterWidgetRegistry],

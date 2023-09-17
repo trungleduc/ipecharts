@@ -1,4 +1,4 @@
-# ipecharts
+# ipecharts - Echarts Jupyter Widget
 
 [![Github Actions Status](https://github.com/trungleduc/ipecharts/workflows/Build/badge.svg)](https://github.com/trungleduc/ipecharts/actions/workflows/build.yml)
 A JupyterLab extension.

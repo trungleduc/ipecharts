@@ -10,10 +10,14 @@ OPTION_URL = "https://raw.githubusercontent.com/apache/echarts-website/asf-site/
 
 def generate():
     here = Path(__file__).parent
-    output = here.parent / "ipecharts" / "_output"
+    output = here.parent / "ipecharts" / "option"
     if output.exists():
         rmtree(output)
     output.mkdir()
+    ts_output = here.parent / "src" / "option"
+    if ts_output.exists():
+        rmtree(ts_output)
+    ts_output.mkdir()
 
     option_path = here / "option.json"
     if not option_path.exists():
@@ -28,7 +32,7 @@ def generate():
 
     template_path = here / "templates"
     generator = CodeGen(base_name="option", schema=schema, template_path=template_path)
-    generator.generate(output=output)
+    generator.generate(output=output, ts_output=ts_output)
 
     subprocess.run(["python", "-m", "black", f"{output}", "--exclude", ".git"])
 

@@ -44,6 +44,7 @@ def capitalize(string: str) -> str:
         return string.capitalize()
     return string[0].upper() + string[1:]
 
+
 def lower_first(string: str) -> str:
     if len(string) == 0:
         return string
@@ -51,6 +52,27 @@ def lower_first(string: str) -> str:
         return string.lower()
     return string[0].lower() + string[1:]
 
-def ensure_string(input: str) -> str:
+
+def ensure_string(input: str, single_quote=False) -> str:
     stripped = input.replace('"', "").replace("'", "")
+    if single_quote:
+        return f"'{stripped}'"
     return f'"{stripped}"'
+
+
+NAME_MAPPING = dict(
+    SeriesItem0="BrokenLineChart",
+    SeriesItem1="BarChart",
+    SeriesItem2="PieChart",
+    SeriesItem3="ScatterChart",
+    SeriesItem4="BrokenLineChart",
+    SeriesItem5="BrokenLineChart",
+    SeriesItem6="BrokenLineChart",
+    SeriesItem7="BrokenLineChart",
+    SeriesItem8="BrokenLineChart",
+    SeriesItem9="BrokenLineChart",
+    SeriesItem10="BrokenLineChart",
+    SeriesItem11="BrokenLineChart",
+    SeriesItem12="BrokenLineChart",
+    SeriesItem13="BrokenLineChart",
+)

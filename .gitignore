@@ -121,4 +121,5 @@ dmypy.json
 .yarn/
 
 generate_code/option.json
-_output/
+ipecharts/option/
+src/option/
