@@ -36,6 +36,9 @@ def generate():
 
     subprocess.run(["python", "-m", "black", f"{output}", "--exclude", ".git"])
 
+    with open(output / "basewidget.py", "w") as f:
+        f.write("from ..basewidget import BaseWidget")
+
 
 if __name__ == "__main__":
     generate()

@@ -1,13 +1,13 @@
-import { WidgetModel, ISerializers } from '@jupyter-widgets/base';
+import { WidgetModel, ISerializers, {{ "unpack_models" if len(serializers_attrs)>0 else "" }}  } from '@jupyter-widgets/base';
 import { MODULE_NAME, MODULE_VERSION } from '../version';
 
-export class {{class_name}} extends WidgetModel {
+export class {{class_name}}Model extends WidgetModel {
   defaults() {
     return {
       ...super.defaults(),
-      _model_name: {{class_name}}.model_name,
-      _model_module: {{class_name}}.model_module,
-      _model_module_version: {{class_name}}.model_module_version{{ "," if len(defaults)>0 else "" }}
+      _model_name: {{class_name}}Model.model_name,
+      _model_module: {{class_name}}Model.model_module,
+      _model_module_version: {{class_name}}Model.model_module_version{{ "," if len(defaults)>0 else "" }}
       {%- for default in defaults %}
       {{ default['name'] }}: {{default['value']  }}{{ "," if not loop.last else "" }}
       {%- endfor %}
@@ -15,8 +15,21 @@ export class {{class_name}} extends WidgetModel {
   }
 
   static serializers: ISerializers = {
-    ...WidgetModel.serializers
+    ...WidgetModel.serializers,
+    {%- for attr in serializers_attrs %}
+      {{attr}}: { deserialize: unpack_models as any }{{ "," if not loop.last else "" }}
+    {%- endfor %}
   };
+
+  toDict(): { [key: string]: any } {
+    const dict: { [key: string]: any } = {};
+    for (const [key, val] of Object.entries(this.attributes)) {
+      if (!key.startsWith('_')) {
+        dict[key] = val;
+      }
+    }
+    return dict;
+  }
 
   static model_name = '{{model_name}}';
   static model_module = MODULE_NAME;

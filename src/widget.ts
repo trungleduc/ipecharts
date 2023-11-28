@@ -4,10 +4,13 @@
 import {
   DOMWidgetModel,
   DOMWidgetView,
-  ISerializers
+  ISerializers,
+  unpack_models
 } from '@jupyter-widgets/base';
-
+import * as echarts from 'echarts';
 import { MODULE_NAME, MODULE_VERSION } from './version';
+import { MessageLoop } from '@lumino/messaging';
+import { Widget } from '@lumino/widgets';
 export class EChartsWidgetModel extends DOMWidgetModel {
   defaults() {
     return {
@@ -23,7 +26,8 @@ export class EChartsWidgetModel extends DOMWidgetModel {
   }
 
   static serializers: ISerializers = {
-    ...DOMWidgetModel.serializers
+    ...DOMWidgetModel.serializers,
+    option: { deserialize: unpack_models as any }
     // Add any extra serializers here
   };
 
@@ -37,11 +41,55 @@ export class EChartsWidgetModel extends DOMWidgetModel {
 
 export class EChartsWidgetView extends DOMWidgetView {
   render() {
-    this.el.classList.add('echarts-widget');
-    console.log('hello', this.model.get('option'));
+    super.render();
 
-    this.model.on('change:option', this.value_changed, this);
+    const option = this.model.get('option');
+    const optionDict: { [key: string]: any } = option.toDict();
+
+    // const attrs: { [key: string]: string } = option.attributes;
+
+    const chartOption: { [key: string]: any } = {};
+    for (const [key, val] of Object.entries(optionDict)) {
+      if (val.toDict) {
+        chartOption[key] = val.toDict();
+      } else {
+        chartOption[key] = val;
+      }
+    }
+    const cop: any = {
+      xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      },
+      yAxis: {
+        type: 'value'
+      }
+    };
+    cop['series'] = [
+      chartOption['series']['series'][0].toDict(),
+      chartOption['series']['series'][1].toDict()
+    ];
+    console.log('chartOption', cop, this.el);
+    const widget = new Widget();
+    widget.addClass('echarts-widget');
+    const myChart = echarts.init(this.el);
+    myChart.setOption(cop);
+    window.addEventListener('resize', () => {
+      myChart.resize();
+    });
+    widget.processMessage = msg => {
+      console.log('msg', msg);
+    };
+    MessageLoop.sendMessage(widget, Widget.Msg.BeforeAttach);
+    this.el.insertBefore(widget.node, null);
+    MessageLoop.sendMessage(widget, Widget.Msg.AfterAttach);
   }
 
   value_changed(a: any, b: any) {}
+
+  processLuminoMessage(msg: any) {
+    if (msg['type'] === 'resize' || msg['type'] === 'after-attach') {
+      window.dispatchEvent(new Event('resize'));
+    }
+  }
 }
