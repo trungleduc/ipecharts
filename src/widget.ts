@@ -52,6 +52,9 @@ export class EChartsWidgetView extends DOMWidgetView {
     for (const [key, val] of Object.entries(optionDict)) {
       if (val.toDict) {
         chartOption[key] = val.toDict();
+      } else if (Array.isArray(val)) {
+        const valArray = val.map(it => (it.toDict ? it.toDict() : it));
+        chartOption[key] = valArray;
       } else {
         chartOption[key] = val;
       }
@@ -65,11 +68,9 @@ export class EChartsWidgetView extends DOMWidgetView {
         type: 'value'
       }
     };
-    cop['series'] = [
-      chartOption['series']['series'][0].toDict(),
-      chartOption['series']['series'][1].toDict()
-    ];
-    console.log('chartOption', cop, this.el);
+
+    cop['series'] = chartOption['series'];
+
     const widget = new Widget();
     widget.addClass('echarts-widget');
     const myChart = echarts.init(this.el);
@@ -77,9 +78,7 @@ export class EChartsWidgetView extends DOMWidgetView {
     window.addEventListener('resize', () => {
       myChart.resize();
     });
-    widget.processMessage = msg => {
-      console.log('msg', msg);
-    };
+    widget.processMessage = msg => {};
     MessageLoop.sendMessage(widget, Widget.Msg.BeforeAttach);
     this.el.insertBefore(widget.node, null);
     MessageLoop.sendMessage(widget, Widget.Msg.AfterAttach);

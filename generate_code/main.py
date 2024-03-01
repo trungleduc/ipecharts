@@ -34,7 +34,11 @@ def generate():
     generator = CodeGen(base_name="option", schema=schema, template_path=template_path)
     generator.generate(output=output, ts_output=ts_output)
 
-    subprocess.run(["python", "-m", "black", f"{output}", "--exclude", ".git"])
+    subprocess.run(
+        ["python", "-m", "black", f"{output}", "--exclude", ".git"],
+        stdout=subprocess.DEVNULL,
+        stderr = subprocess.DEVNULL
+    )
 
     with open(output / "basewidget.py", "w") as f:
         f.write("from ..basewidget import BaseWidget")

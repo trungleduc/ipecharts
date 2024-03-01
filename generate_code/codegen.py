@@ -68,7 +68,7 @@ class CodeGen:
         trait_value: Dict[str, Dict],
         output: Path,
         ts_output: Path,
-    ):
+    ) -> str:
         cls_name = capitalize(trait_name)
         items = trait_value.get("items", None)
         desc = trait_value.pop("description", "")
@@ -99,9 +99,7 @@ class CodeGen:
                     item_cls = self._generate_object_type(
                         list_item_cls, list_item, out_dir, ts_out_dir
                     )
-                    trait_item += (
-                        f"Instance({item_cls}, kw={{}}, args=(), allow_none=True),"
-                    )
+                    trait_item += f"Instance({item_cls}, kw={{}}, args=(), allow_none=True).tag(sync=True, **widget_serialization),"
                     imports.append(
                         {
                             "module": f".{trait_name.lower()}items.{item_cls.lower()}",
@@ -128,12 +126,17 @@ class CodeGen:
                 traits.append(code)
 
         self._write_to_py_file(cls_name, desc, traits, imports, output)
-        if cls_name == 'Series':
-            serializers_attrs = ['series']
+        if cls_name == "Series":
+            serializers_attrs = ["series"]
         else:
             serializers_attrs = []
-        self._write_to_ts_file(cls_name=cls_name, defaults=defaults, output=ts_output, serializers_attrs=serializers_attrs)
-        return cls_name
+        self._write_to_ts_file(
+            cls_name=cls_name,
+            defaults=defaults,
+            output=ts_output,
+            serializers_attrs=serializers_attrs,
+        )
+        return traits, imports
 
     def _write_to_py_file(
         self,
@@ -162,7 +165,7 @@ class CodeGen:
         cls_name: str,
         defaults: List[Dict],
         output: Path,
-        serializers_attrs: List[str] = []
+        serializers_attrs: List[str] = [],
     ):
         template = self.template_env.get_template("class.ts.jinja")
         class_name_fixed = capitalize(cls_name)
@@ -171,7 +174,7 @@ class CodeGen:
             model_name=f"{class_name_fixed}Model",
             defaults=defaults,
             len=len,
-            serializers_attrs=serializers_attrs
+            serializers_attrs=serializers_attrs,
         )
 
         content = template.render(**resources)
@@ -198,6 +201,8 @@ class CodeGen:
         option_props = []
         for prop, prop_value in self._schema["properties"].items():
             cls_name = None
+            list_traits = None
+            list_imports = None
             if is_object_type(prop_value):
                 cls_name = self._generate_object_type(
                     prop, prop_value, output, ts_output
@@ -210,10 +215,9 @@ class CodeGen:
                     )
                     defaults.append({"name": prop, "value": []})
                 else:
-                    cls_name = self._generate_array_type(
+                    list_traits, list_imports = self._generate_array_type(
                         prop, prop_value, output, ts_output
                     )
-
 
             if cls_name is not None:
                 imports.append(
@@ -224,10 +228,22 @@ class CodeGen:
                 )
                 defaults.append({"name": prop, "value": {}})
                 option_props.append(prop)
+            elif list_traits is not None:
+                traits.extend(list_traits)
+                if list_imports is not None:
+                    imports.extend(list_imports)
+
         self._write_to_py_file(
             "Option", desc="", traits=traits, imports=imports, output=output
         )
 
-        self._write_to_ts_file(cls_name="Option", defaults=defaults, output=ts_output, serializers_attrs=option_props)
+        option_props.append("series")
+        defaults.append({"name": "series", "value": []})
+        self._write_to_ts_file(
+            cls_name="Option",
+            defaults=defaults,
+            output=ts_output,
+            serializers_attrs=option_props,
+        )
         # self._ts_files.append(str(ts_output / "option.ts"))
         self._write_ts_index(ts_output)

@@ -29,8 +29,10 @@ class TraitFactory:
             if default is not None:
                 if props_type == "string" or "string" in props_type:
                     default = ensure_string(str(default))
-
-                code = f"{name} = {self.type_map[props_type]}(default_value={default}, allow_none=True, {help_str if len(help_str) > 0 else ''}).tag(sync=True)"
+                trait_cls = self.type_map[props_type]
+                if trait_cls == "Bool" and (default != "True" or default != "False"):
+                    default = "True"
+                code = f"{name} = {trait_cls}(default_value={default}, allow_none=True, {help_str if len(help_str) > 0 else ''}).tag(sync=True)"
             else:
                 code = f"{name} = {self.type_map[props_type]}({help_str if len(help_str) > 0 else ''}).tag(sync=True)"
         else:
