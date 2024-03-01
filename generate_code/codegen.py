@@ -157,7 +157,9 @@ class CodeGen:
         )
 
         content = template.render(**resources)
-        with open(output / f"{cls_name.lower()}.py", "w") as f:
+        file_path = output / f"{cls_name.lower()}.py"
+        print('Writing', file_path)
+        with open(file_path, "w") as f:
             f.write(content)
 
     def _write_to_ts_file(
@@ -179,6 +181,7 @@ class CodeGen:
 
         content = template.render(**resources)
         ts_file_name = output / f"{cls_name.lower()}.ts"
+        print('Writing', ts_file_name)
         with open(ts_file_name, "w") as f:
             f.write(content)
         self._ts_files.append(str(ts_file_name))

@@ -28,9 +28,9 @@
         "url": "https://github.com/trungleduc/ipecharts.git"
     },
     "scripts": {
-        "build": "jlpm build:lib && jlpm build:labextension:dev",
+        "build": "jlpm generate_code && jlpm build:lib && jlpm build:labextension:dev",
         "build:prod": "jlpm clean && jlpm generate_code && jlpm build:lib:prod && jlpm build:labextension",
-        "generate_code": "python -m generate_code.main && yarn run lint",
+        "generate_code": "python -m generate_code.main",
         "build:labextension": "jupyter labextension build .",
         "build:labextension:dev": "jupyter labextension build --development True .",
         "build:lib": "tsc --sourceMap",

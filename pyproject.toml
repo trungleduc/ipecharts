@@ -26,7 +26,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
-dependencies = []
+dependencies = ["ipywidgets>=8,<9"]
 dynamic = ["version", "description", "authors", "urls", "keywords"]
 
 [tool.hatch.version]
@@ -73,7 +73,7 @@ version_cmd = "hatch version"
 
 [tool.jupyter-releaser.hooks]
 before-build-npm = [
-    "python -m pip install 'jupyterlab>=4.0.0,<5'",
+    "python -m pip install 'jupyterlab>=4.0.0,<5' markdownify",
     "jlpm",
     "jlpm build:prod",
 ]
