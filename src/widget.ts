@@ -9,8 +9,6 @@ import {
 } from '@jupyter-widgets/base';
 import * as echarts from 'echarts';
 import { MODULE_NAME, MODULE_VERSION } from './version';
-import { MessageLoop } from '@lumino/messaging';
-import { Widget } from '@lumino/widgets';
 export class EChartsWidgetModel extends DOMWidgetModel {
   defaults() {
     return {
@@ -46,10 +44,11 @@ export class EChartsWidgetView extends DOMWidgetView {
     const option = this.model.get('option');
     const optionDict: { [key: string]: any } = option.toDict();
 
-    // const attrs: { [key: string]: string } = option.attributes;
-
     const chartOption: { [key: string]: any } = {};
     for (const [key, val] of Object.entries(optionDict)) {
+      if (!val) {
+        continue;
+      }
       if (val.toDict) {
         chartOption[key] = val.toDict();
       } else if (Array.isArray(val)) {
@@ -59,32 +58,16 @@ export class EChartsWidgetView extends DOMWidgetView {
         chartOption[key] = val;
       }
     }
-    const cop: any = {
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value'
-      }
-    };
 
-    cop['series'] = chartOption['series'];
-
-    const widget = new Widget();
+    const widget = this.luminoWidget;
     widget.addClass('echarts-widget');
     const myChart = echarts.init(this.el);
-    myChart.setOption(cop);
+    delete chartOption['geo'];
+    myChart.setOption(chartOption);
     window.addEventListener('resize', () => {
       myChart.resize();
     });
-    widget.processMessage = msg => {};
-    MessageLoop.sendMessage(widget, Widget.Msg.BeforeAttach);
-    this.el.insertBefore(widget.node, null);
-    MessageLoop.sendMessage(widget, Widget.Msg.AfterAttach);
   }
-
-  value_changed(a: any, b: any) {}
 
   processLuminoMessage(msg: any) {
     if (msg['type'] === 'resize' || msg['type'] === 'after-attach') {

@@ -13,6 +13,9 @@ from .tools import (
     is_object_type,
 )
 from .traitfactory import TraitFactory
+import re
+
+pattern = re.compile(r"(?<!^)(?=[A-Z])")
 
 
 class CodeGen:
@@ -24,6 +27,7 @@ class CodeGen:
         )
         self._base_name = base_name
         self._ts_files: List[str] = []
+        self._init_content = {}
 
     def _generate_object_type(
         self,
@@ -31,9 +35,11 @@ class CodeGen:
         trait_value: Dict[str, Dict],
         output: Path,
         ts_output: Path,
+        type_value = None
     ) -> str:
         trait_copy = deepcopy(trait_value)
         trait_copy["type"] = convert_object_type(trait_copy["type"])
+
         desc = trait_value.pop("description", "")
         traits = []
         defaults = []
@@ -41,24 +47,10 @@ class CodeGen:
 
         properties: Dict = trait_value.get("properties", {})
         for name, props in properties.items():
-            traits.append(self._trait_factory.generate(name, props))
-            default = "null"
-            has_default = False
-            if "default" in props:
-                default = props.get("default")
-                if default is None:
-                    default = "null"
-                has_default = True
-            if has_default:
-                if type(default) == bool:
-                    defaults.append({"name": name, "value": str(default).lower()})
-                elif type(default) == str and default != "null":
-                    defaults.append(
-                        {"name": name, "value": ensure_string(default, True)}
-                    )
-                else:
-                    defaults.append({"name": name, "value": default})
+            traits.append(self._trait_factory.generate(name, props, type_value=type_value))
+
         self._write_to_py_file(cls_name, desc, traits, [], output)
+        self._init_content[cls_name.lower()] = cls_name
         self._write_to_ts_file(cls_name=cls_name, defaults=defaults, output=ts_output)
         return cls_name
 
@@ -93,20 +85,27 @@ class CodeGen:
 
                     if type_value:
                         type_value = type_value.replace("'", "").replace('"', "")
-                        list_item_cls = f"{trait_name}{capitalize(type_value)}"
+                        if trait_name == "series" and type_value in [
+                            "radar",
+                            "parallel",
+                        ]:
+                            list_item_cls = f"{trait_name}{capitalize(type_value)}"
+                        else:
+                            list_item_cls = f"{capitalize(type_value)}"
+
                     else:
                         list_item_cls = f"{trait_name}Item{item_idx}"
                     item_cls = self._generate_object_type(
-                        list_item_cls, list_item, out_dir, ts_out_dir
+                        list_item_cls, list_item, out_dir, ts_out_dir, type_value=type_value
                     )
-                    trait_item += f"Instance({item_cls}, kw={{}}, args=(), allow_none=True).tag(sync=True, **widget_serialization),"
+                    trait_item += f"Instance({item_cls}, kw=None, args=None, allow_none=True).tag(sync=True, **widget_serialization),"
                     imports.append(
                         {
                             "module": f".{trait_name.lower()}items.{item_cls.lower()}",
                             "import_name": item_cls,
                         }
                     )
-            code = f"{trait_name} = List(trait=Union([{trait_item}]), allow_none=True).tag(sync=True, **widget_serialization)"
+            code = f"{trait_name} = List(trait=Union([{trait_item}]), allow_none=True, default_value=None).tag(sync=True, **widget_serialization)"
             defaults.append({"name": trait_name, "value": []})
             traits.append(code)
 
@@ -122,7 +121,7 @@ class CodeGen:
                         "import_name": import_name,
                     }
                 )
-                code = f"{trait_name} = List(trait=Instance({import_name}), allow_none=True).tag(sync=True, **widget_serialization)"
+                code = f"{trait_name} = List(trait=Instance({import_name}), default_value=None, allow_none=True).tag(sync=True, **widget_serialization)"
                 traits.append(code)
 
         self._write_to_py_file(cls_name, desc, traits, imports, output)
@@ -158,7 +157,6 @@ class CodeGen:
 
         content = template.render(**resources)
         file_path = output / f"{cls_name.lower()}.py"
-        print('Writing', file_path)
         with open(file_path, "w") as f:
             f.write(content)
 
@@ -181,7 +179,6 @@ class CodeGen:
 
         content = template.render(**resources)
         ts_file_name = output / f"{cls_name.lower()}.ts"
-        print('Writing', ts_file_name)
         with open(ts_file_name, "w") as f:
             f.write(content)
         self._ts_files.append(str(ts_file_name))
@@ -196,6 +193,21 @@ class CodeGen:
             f.write(
                 "import { MODULE_NAME, MODULE_VERSION } from '../version';\nexport { MODULE_NAME, MODULE_VERSION };\n"
             )
+
+    def _write_init(self, class_dir: Path):
+
+        init_path = class_dir / "__init__.py"
+        content = ["from .option import Option"]
+        for path in class_dir.glob("*.py"):
+            file_name = path.name.split(".")[0]
+            if file_name in self._init_content:
+                content.append(
+                    f"from .{file_name} import {self._init_content[file_name]}"
+                )
+
+        content_str = "\n".join(content)
+        with open(init_path, "w") as f:
+            f.write(content_str)
 
     def generate(self, output: Path, ts_output: Path):
         imports = []
@@ -214,7 +226,7 @@ class CodeGen:
             elif is_array_type(prop_value):
                 if "items" not in prop_value:
                     traits.append(
-                        f"{prop} = List(trait=Any, default=[], allow_none=True).tag(sync=True)"
+                        f"{prop} = List(trait=Any, default_value=None, allow_none=True).tag(sync=True)"
                     )
                     defaults.append({"name": prop, "value": []})
                 else:
@@ -227,7 +239,7 @@ class CodeGen:
                     {"module": f".{cls_name.lower()}", "import_name": cls_name}
                 )
                 traits.append(
-                    f"{prop} = Instance({cls_name}, kw={{}}, args=(),allow_none=True).tag(sync=True, **widget_serialization)"
+                    f"{prop} = Instance({cls_name}, kw=None, args=None,allow_none=True).tag(sync=True, **widget_serialization)"
                 )
                 defaults.append({"name": prop, "value": {}})
                 option_props.append(prop)
@@ -250,3 +262,4 @@ class CodeGen:
         )
         # self._ts_files.append(str(ts_output / "option.ts"))
         self._write_ts_index(ts_output)
+        self._write_init(output)

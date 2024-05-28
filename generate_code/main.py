@@ -37,7 +37,7 @@ def generate():
     subprocess.run(
         ["python", "-m", "black", f"{output}", "--exclude", ".git"],
         stdout=subprocess.DEVNULL,
-        stderr = subprocess.DEVNULL
+        stderr=subprocess.DEVNULL,
     )
 
     with open(output / "basewidget.py", "w") as f:

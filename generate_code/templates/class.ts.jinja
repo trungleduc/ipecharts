@@ -9,7 +9,7 @@ export class {{class_name}}Model extends WidgetModel {
       _model_module: {{class_name}}Model.model_module,
       _model_module_version: {{class_name}}Model.model_module_version{{ "," if len(defaults)>0 else "" }}
       {%- for default in defaults %}
-      {{ default['name'] }}: {{default['value']  }}{{ "," if not loop.last else "" }}
+      {{ default['name'] }}: undefined{{ "," if not loop.last else "" }}
       {%- endfor %}
     };
   }
@@ -24,7 +24,8 @@ export class {{class_name}}Model extends WidgetModel {
   toDict(): { [key: string]: any } {
     const dict: { [key: string]: any } = {};
     for (const [key, val] of Object.entries(this.attributes)) {
-      if (!key.startsWith('_')) {
+
+      if ((val !== undefined) && (val !== null) && !key.startsWith('_')) {
         dict[key] = val;
       }
     }
