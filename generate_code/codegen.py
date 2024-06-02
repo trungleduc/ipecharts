@@ -237,7 +237,8 @@ class CodeGen:
                     list_traits, list_imports = self._generate_array_type(
                         prop, prop_value, output, ts_output
                     )
-
+            else:
+                traits.append(self._trait_factory.generate(prop, prop_value))
             if cls_name is not None:
                 imports.append(
                     {"module": f".{cls_name.lower()}", "import_name": cls_name}

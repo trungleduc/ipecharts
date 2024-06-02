@@ -1,3 +1,6 @@
+// Copyright (c) Trung Le
+// Distributed under the terms of the Modified BSD License.
+
 import { DOMWidgetModel } from '@jupyter-widgets/base';
 import { Token } from '@lumino/coreutils';
 

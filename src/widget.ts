@@ -6,12 +6,15 @@ import {
   DOMWidgetView,
   IBackboneModelOptions,
   ISerializers,
+  WidgetView,
   unpack_models
 } from '@jupyter-widgets/base';
 import * as echarts from 'echarts';
 import { MODULE_NAME, MODULE_VERSION } from './version';
 import { IUpdateManager } from './types';
 import { ObjectHash } from 'backbone';
+import { IThemeManager } from '@jupyterlab/apputils';
+import { isLightTheme } from './tools';
 export class EChartsWidgetModel extends DOMWidgetModel {
   defaults() {
     return {
@@ -50,11 +53,54 @@ export class EChartsWidgetModel extends DOMWidgetModel {
 }
 
 export class EChartsWidgetView extends DOMWidgetView {
+  initialize(
+    parameters: WidgetView.IInitializeParameters<DOMWidgetModel>
+  ): void {
+    super.initialize(parameters);
+    if (EChartsWidgetView.themeManager) {
+      const themeManager = EChartsWidgetView.themeManager;
+      themeManager.themeChanged.connect(() => {
+        const currentTheme = isLightTheme() ? 'light' : 'dark';
+        if (this._myChart) {
+          this._myChart.dispose();
+          this._myChart = echarts.init(this.el, currentTheme);
+          this._myChart.setOption(this._createOptionDict());
+        }
+      });
+    }
+    this.model.on('change', this.value_changed, this);
+    window.addEventListener('resize', () => {
+      this._myChart?.resize();
+    });
+  }
+
   render() {
     super.render();
 
+    const currentTheme = isLightTheme() ? 'light' : 'dark';
+
+    const widget = this.luminoWidget;
+    widget.addClass('echarts-widget');
+    this._myChart = echarts.init(this.el, currentTheme);
+
+    this._myChart.setOption(this._createOptionDict());
+  }
+
+  value_changed() {
+    if (this._myChart) {
+      this._myChart.setOption(this._createOptionDict());
+    }
+  }
+  processLuminoMessage(msg: any) {
+    if (msg['type'] === 'resize' || msg['type'] === 'after-attach') {
+      window.dispatchEvent(new Event('resize'));
+    }
+  }
+
+  _createOptionDict(): { [key: string]: any } {
     const option = this.model.get('option');
     const optionDict: { [key: string]: any } = option.toDict();
+
     const chartOption: { [key: string]: any } = {};
     for (const [key, val] of Object.entries(optionDict)) {
       if (!val) {
@@ -69,45 +115,9 @@ export class EChartsWidgetView extends DOMWidgetView {
         chartOption[key] = val;
       }
     }
-
-    this.model.on('change', this.value_changed, this);
-    const widget = this.luminoWidget;
-    widget.addClass('echarts-widget');
-    this._myChart = echarts.init(this.el);
-    delete chartOption['geo'];
-    this._myChart.setOption(chartOption);
-    window.addEventListener('resize', () => {
-      this._myChart!.resize();
-    });
+    return chartOption;
   }
 
-  value_changed() {
-    if (this._myChart) {
-      // this._myChart.clear();
-      const option = this.model.get('option');
-      const optionDict: { [key: string]: any } = option.toDict();
-
-      const chartOption: { [key: string]: any } = {};
-      for (const [key, val] of Object.entries(optionDict)) {
-        if (!val) {
-          continue;
-        }
-        if (val.toDict) {
-          chartOption[key] = val.toDict();
-        } else if (Array.isArray(val)) {
-          const valArray = val.map(it => (it.toDict ? it.toDict() : it));
-          chartOption[key] = valArray;
-        } else {
-          chartOption[key] = val;
-        }
-      }
-      this._myChart.setOption(chartOption);
-    }
-  }
-  processLuminoMessage(msg: any) {
-    if (msg['type'] === 'resize' || msg['type'] === 'after-attach') {
-      window.dispatchEvent(new Event('resize'));
-    }
-  }
+  static themeManager: IThemeManager | null = null;
   private _myChart?: echarts.ECharts;
 }
