@@ -10,11 +10,13 @@ import {
   unpack_models
 } from '@jupyter-widgets/base';
 import * as echarts from 'echarts';
+import 'echarts-gl';
 import { MODULE_NAME, MODULE_VERSION } from './version';
 import { IUpdateManager } from './types';
 import { ObjectHash } from 'backbone';
 import { IThemeManager } from '@jupyterlab/apputils';
 import { isLightTheme } from './tools';
+import { Debouncer } from '@lumino/polling';
 export class EChartsWidgetModel extends DOMWidgetModel {
   defaults() {
     return {
@@ -69,8 +71,10 @@ export class EChartsWidgetView extends DOMWidgetView {
       });
     }
     this.model.on('change', this.value_changed, this);
+    const resizeChart = () => this._myChart?.resize();
+    const debouncer = new Debouncer(resizeChart, 100);
     window.addEventListener('resize', () => {
-      this._myChart?.resize();
+      debouncer.invoke();
     });
   }
 
@@ -115,6 +119,7 @@ export class EChartsWidgetView extends DOMWidgetView {
         chartOption[key] = val;
       }
     }
+
     return chartOption;
   }
 

@@ -2,10 +2,13 @@ import json
 from pathlib import Path
 from shutil import rmtree
 import subprocess
+
+from .download_data import download_data
 from .codegen import CodeGen
 import requests
 
 OPTION_URL = "https://raw.githubusercontent.com/apache/echarts-website/asf-site/en/documents/option.json"
+OPTION_GL_URL = "https://raw.githubusercontent.com/apache/echarts-website/asf-site/en/documents/option-gl.json"
 
 
 def generate():
@@ -19,11 +22,8 @@ def generate():
         rmtree(ts_output)
     ts_output.mkdir()
 
-    option_path = here / "option.json"
-    if not option_path.exists():
-        r = requests.get(OPTION_URL, allow_redirects=True)
-        with open(option_path, "w") as f:
-            f.write(r.text)
+    download_data()
+    option_path = here / "all_option.json"
 
     schema = {}
     with open(option_path, "r", encoding="utf-8") as fh:

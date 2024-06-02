@@ -6,11 +6,11 @@ import {
   WidgetView
 } from '@jupyter-widgets/base';
 import { IThemeManager } from '@jupyterlab/apputils';
+import { Debouncer } from '@lumino/polling';
 import * as echarts from 'echarts';
-
-import { MODULE_NAME, MODULE_VERSION } from './version';
+import 'echarts-gl';
 import { isLightTheme } from './tools';
-
+import { MODULE_NAME, MODULE_VERSION } from './version';
 export class EChartsRawWidgetModel extends DOMWidgetModel {
   defaults() {
     return {
@@ -49,8 +49,10 @@ export class EChartsRawWidgetView extends DOMWidgetView {
         }
       });
     }
+    const resizeChart = () => this._myChart?.resize();
+    const debouncer = new Debouncer(resizeChart, 100);
     window.addEventListener('resize', () => {
-      this._myChart?.resize();
+      debouncer.invoke();
     });
   }
 

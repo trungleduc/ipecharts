@@ -31,6 +31,14 @@ export class {{class_name}}Model extends WidgetModel {
   toDict(): { [key: string]: any } {
     const dict: { [key: string]: any } = {};
     for (const [key, val] of Object.entries(this.attributes)) {
+      if (key === 'unknown_attrs') {
+        if (val) {
+          for (const [unknown_key, unknown_val] of Object.entries(val)) {
+            dict[unknown_key] = unknown_val;
+          }
+        }
+        continue;
+      }
       if (val !== undefined && val !== null && !key.startsWith('_')) {
         dict[key] = val;
       }

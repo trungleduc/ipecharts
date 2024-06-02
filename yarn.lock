@@ -325,6 +325,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jupyterlab/apputils@npm:^4.0.0":
+  version: 4.3.1
+  resolution: "@jupyterlab/apputils@npm:4.3.1"
+  dependencies:
+    "@jupyterlab/coreutils": ^6.2.1
+    "@jupyterlab/observables": ^5.2.1
+    "@jupyterlab/rendermime-interfaces": ^3.10.1
+    "@jupyterlab/services": ^7.2.1
+    "@jupyterlab/settingregistry": ^4.2.1
+    "@jupyterlab/statedb": ^4.2.1
+    "@jupyterlab/statusbar": ^4.2.1
+    "@jupyterlab/translation": ^4.2.1
+    "@jupyterlab/ui-components": ^4.2.1
+    "@lumino/algorithm": ^2.0.1
+    "@lumino/commands": ^2.3.0
+    "@lumino/coreutils": ^2.1.2
+    "@lumino/disposable": ^2.1.2
+    "@lumino/domutils": ^2.0.1
+    "@lumino/messaging": ^2.0.1
+    "@lumino/signaling": ^2.1.2
+    "@lumino/virtualdom": ^2.0.1
+    "@lumino/widgets": ^2.3.2
+    "@types/react": ^18.0.26
+    react: ^18.2.0
+    sanitize-html: ~2.12.1
+  checksum: 380d9059dd14ee47bb50a821515e0b4a92a2b60b6fed2bf15fb73b9192a2e95d1e6c97337f11d0c26870dba2dc89ee19604f068483df505e78d798510a61bf01
+  languageName: node
+  linkType: hard
+
 "@jupyterlab/apputils@npm:^4.1.5":
   version: 4.1.5
   resolution: "@jupyterlab/apputils@npm:4.1.5"
@@ -351,35 +380,6 @@ __metadata:
     react: ^18.2.0
     sanitize-html: ~2.7.3
   checksum: b569303e8b38173de8612a3c04bac349f25c151bbb83b4f594311d679896aed37ba1467e9ff123e605c0d5400c89cf0d66fce697440ea07fff9dd4a408148e2f
-  languageName: node
-  linkType: hard
-
-"@jupyterlab/apputils@npm:^4.3.1":
-  version: 4.3.1
-  resolution: "@jupyterlab/apputils@npm:4.3.1"
-  dependencies:
-    "@jupyterlab/coreutils": ^6.2.1
-    "@jupyterlab/observables": ^5.2.1
-    "@jupyterlab/rendermime-interfaces": ^3.10.1
-    "@jupyterlab/services": ^7.2.1
-    "@jupyterlab/settingregistry": ^4.2.1
-    "@jupyterlab/statedb": ^4.2.1
-    "@jupyterlab/statusbar": ^4.2.1
-    "@jupyterlab/translation": ^4.2.1
-    "@jupyterlab/ui-components": ^4.2.1
-    "@lumino/algorithm": ^2.0.1
-    "@lumino/commands": ^2.3.0
-    "@lumino/coreutils": ^2.1.2
-    "@lumino/disposable": ^2.1.2
-    "@lumino/domutils": ^2.0.1
-    "@lumino/messaging": ^2.0.1
-    "@lumino/signaling": ^2.1.2
-    "@lumino/virtualdom": ^2.0.1
-    "@lumino/widgets": ^2.3.2
-    "@types/react": ^18.0.26
-    react: ^18.2.0
-    sanitize-html: ~2.12.1
-  checksum: 380d9059dd14ee47bb50a821515e0b4a92a2b60b6fed2bf15fb73b9192a2e95d1e6c97337f11d0c26870dba2dc89ee19604f068483df505e78d798510a61bf01
   languageName: node
   linkType: hard
 
@@ -2019,6 +2019,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"claygl@npm:^1.2.1":
+  version: 1.3.0
+  resolution: "claygl@npm:1.3.0"
+  checksum: cbf3c4788b426ecc183e0fc5f7e3f88fae15d616ebf39467cb719c1f78efbef8bbe92f8def22c927a9d3cbb2a3ae6d1194755edae96d5f623b4dca0b78bdefa8
+  languageName: node
+  linkType: hard
+
 "clone-deep@npm:^4.0.1":
   version: 4.0.1
   resolution: "clone-deep@npm:4.0.1"
@@ -2441,6 +2448,18 @@ __metadata:
   version: 0.2.0
   resolution: "eastasianwidth@npm:0.2.0"
   checksum: 7d00d7cd8e49b9afa762a813faac332dee781932d6f2c848dc348939c4253f1d4564341b7af1d041853bc3f32c2ef141b58e0a4d9862c17a7f08f68df1e0f1ed
+  languageName: node
+  linkType: hard
+
+"echarts-gl@npm:^2.0.9":
+  version: 2.0.9
+  resolution: "echarts-gl@npm:2.0.9"
+  dependencies:
+    claygl: ^1.2.1
+    zrender: ^5.1.1
+  peerDependencies:
+    echarts: ^5.1.2
+  checksum: d07dfeb093c5ca05a671317a8f4f4be7fffaa12fb91d485ab19c65d740bbf3c08b02b57c4d7b772bc3ce025184843f1a44ba8bdfc3d48257a46684a5d10fb941
   languageName: node
   linkType: hard
 
@@ -3438,8 +3457,9 @@ __metadata:
   dependencies:
     "@jupyter-widgets/base": ^1.1.10 || ^2 || ^3 || ^4 || ^5 || ^6
     "@jupyterlab/application": ^4.0.0
-    "@jupyterlab/apputils": ^4.3.1
+    "@jupyterlab/apputils": ^4.0.0
     "@jupyterlab/builder": ^4.0.0
+    "@lumino/polling": ^2.1.2
     "@types/json-schema": ^7.0.11
     "@types/react": ^18.0.26
     "@types/react-addons-linked-state-mixin": ^0.14.22
@@ -3447,6 +3467,7 @@ __metadata:
     "@typescript-eslint/parser": ^6.1.0
     css-loader: ^6.7.1
     echarts: ^5.4.3
+    echarts-gl: ^2.0.9
     eslint: ^8.36.0
     eslint-config-prettier: ^8.8.0
     eslint-plugin-prettier: ^5.0.0
@@ -6318,5 +6339,14 @@ __metadata:
   dependencies:
     tslib: 2.3.0
   checksum: 4b317346af8eca38e62ba029239c3a13e97eac4fa15b3ddadbae23442d8b373f0e937c255dee8080d6bb2fc79c9da54f1106415586ed8942bd8bc684b3890ea9
+  languageName: node
+  linkType: hard
+
+"zrender@npm:^5.1.1":
+  version: 5.5.0
+  resolution: "zrender@npm:5.5.0"
+  dependencies:
+    tslib: 2.3.0
+  checksum: 89e4f9e95b586af66ebf5c0504d5f8da73678e18c5b888124943ca81ecea7cff12f23009d64048df91e4dc670e9c51fa66c357834d9347e367f3b5cc02a24d35
   languageName: node
   linkType: hard
