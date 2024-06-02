@@ -9,6 +9,7 @@ import * as widgetExports from './widget';
 import * as subWidgetExport from './option';
 
 import { MODULE_NAME, MODULE_VERSION } from './version';
+import { IUpdateManager, IUpdateManagerToken } from './types';
 
 const EXTENSION_ID = 'ipecharts:plugin';
 
@@ -18,7 +19,7 @@ const EXTENSION_ID = 'ipecharts:plugin';
 export const widgetPlugin: JupyterFrontEndPlugin<void> = {
   id: EXTENSION_ID,
   description: 'A JupyterLab extension.',
-  requires: [IJupyterWidgetRegistry],
+  requires: [IJupyterWidgetRegistry, IUpdateManagerToken],
   activate: activateWidgetExtension,
   autoStart: true
 };
@@ -28,11 +29,18 @@ export const widgetPlugin: JupyterFrontEndPlugin<void> = {
  */
 function activateWidgetExtension(
   app: JupyterFrontEnd,
-  registry: IJupyterWidgetRegistry
+  registry: IJupyterWidgetRegistry,
+  updateManager: IUpdateManager
 ): void {
+  const allExports = { ...widgetExports, ...subWidgetExport };
+  for (const Class of Object.values(allExports)) {
+    if (Object.getOwnPropertyDescriptor(Class, 'updateManager')) {
+      (Class as any).updateManager = updateManager;
+    }
+  }
   registry.registerWidget({
     name: MODULE_NAME,
     version: MODULE_VERSION,
-    exports: { ...widgetExports, ...subWidgetExport }
+    exports: allExports
   });
 }

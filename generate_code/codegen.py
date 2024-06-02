@@ -193,6 +193,10 @@ class CodeGen:
             f.write(
                 "import { MODULE_NAME, MODULE_VERSION } from '../version';\nexport { MODULE_NAME, MODULE_VERSION };\n"
             )
+        with open(ts_output / "types.ts", "w") as f:
+            f.write(
+                "import { IUpdateManager } from '../types';\nexport { IUpdateManager };\n"
+            )
 
     def _write_init(self, class_dir: Path):
 
