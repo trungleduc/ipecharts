@@ -36,11 +36,11 @@ source = "nodejs"
 fields = ["description", "authors", "urls"]
 
 [tool.hatch.build.targets.sdist]
-artifacts = ["ipecharts/labextension", "ipecharts/option/*.py" ]
+artifacts = ["ipecharts/labextension", "ipecharts/option" ]
 exclude = [".github", "binder"]
 
 [tool.hatch.build.targets.wheel]
-artifacts = ["ipecharts/option/*.py"]
+artifacts = ["ipecharts/option"]
 exclude = [".github", "binder", "generate_code"]
 
 [tool.hatch.build.targets.wheel.shared-data]
