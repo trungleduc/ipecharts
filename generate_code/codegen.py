@@ -1,6 +1,6 @@
 from copy import deepcopy
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 import markdownify
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -8,12 +8,11 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from .tools import (
     capitalize,
     convert_object_type,
-    ensure_string,
     is_array_type,
     is_object_type,
 )
-from .traitfactory import TraitFactory
 import re
+from .traitfactory import generate_trait
 
 pattern = re.compile(r"(?<!^)(?=[A-Z])")
 
@@ -21,7 +20,6 @@ pattern = re.compile(r"(?<!^)(?=[A-Z])")
 class CodeGen:
     def __init__(self, base_name: str, schema: dict, template_path: Path) -> None:
         self._schema = schema
-        self._trait_factory = TraitFactory()
         self.template_env = Environment(
             loader=FileSystemLoader(template_path), autoescape=select_autoescape()
         )
@@ -32,23 +30,28 @@ class CodeGen:
     def _generate_object_type(
         self,
         trait_name: str,
-        trait_value: Dict[str, Dict],
+        trait_value: Dict,
         output: Path,
         ts_output: Path,
-        type_value = None
+        type_value=None,
     ) -> str:
         trait_copy = deepcopy(trait_value)
         trait_copy["type"] = convert_object_type(trait_copy["type"])
 
-        desc = trait_value.pop("description", "")
+        desc: str = trait_value.pop("description", "")
         traits = []
         defaults = []
         cls_name = capitalize(trait_name)
 
         properties: Dict = trait_value.get("properties", {})
+        desc += "<h4>Available traits</h4>\n"
+        desc += "<ul>"
         for name, props in properties.items():
-            traits.append(self._trait_factory.generate(name, props, type_value=type_value))
-
+            props_desc: str = props.get("description", "")
+            if len(props_desc) > 0:
+                desc += f" <li> {name} : {props_desc.strip()} </li>"
+            traits.append(generate_trait(name, props, type_value=type_value))
+        desc += "</ul>"
         self._write_to_py_file(cls_name, desc, traits, [], output)
         self._init_content[cls_name.lower()] = cls_name
         self._write_to_ts_file(cls_name=cls_name, defaults=defaults, output=ts_output)
@@ -60,10 +63,10 @@ class CodeGen:
         trait_value: Dict[str, Dict],
         output: Path,
         ts_output: Path,
-    ) -> str:
+    ) -> Tuple[List[str], List[str]]:
         cls_name = capitalize(trait_name)
-        items = trait_value.get("items", None)
-        desc = trait_value.pop("description", "")
+        items = trait_value.get("items", {})
+        desc: str = trait_value.pop("description", "")
 
         imports = []
         traits = []
@@ -96,7 +99,11 @@ class CodeGen:
                     else:
                         list_item_cls = f"{trait_name}Item{item_idx}"
                     item_cls = self._generate_object_type(
-                        list_item_cls, list_item, out_dir, ts_out_dir, type_value=type_value
+                        list_item_cls,
+                        list_item,
+                        out_dir,
+                        ts_out_dir,
+                        type_value=type_value,
                     )
                     trait_item += f"Instance({item_cls}, kw=None, args=None, allow_none=True).tag(sync=True, **widget_serialization),"
                     imports.append(
@@ -147,9 +154,11 @@ class CodeGen:
     ):
         template = self.template_env.get_template("class.py.jinja")
         class_name_fixed = capitalize(cls_name)
+        md_desc = markdownify.markdownify(f"{desc}", bullets="-")
         resources = dict(
             class_name=class_name_fixed,
-            desc=markdownify.markdownify(desc),
+            desc=md_desc,
+            # desc=desc,
             traits=traits,
             imports=imports,
             model_name=f"{class_name_fixed}Model",
@@ -238,7 +247,7 @@ class CodeGen:
                         prop, prop_value, output, ts_output
                     )
             else:
-                traits.append(self._trait_factory.generate(prop, prop_value))
+                traits.append(generate_trait(prop, prop_value))
             if cls_name is not None:
                 imports.append(
                     {"module": f".{cls_name.lower()}", "import_name": cls_name}

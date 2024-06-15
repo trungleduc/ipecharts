@@ -4,6 +4,7 @@ requires = [
     "jupyterlab>=4.0.0,<5",
     "hatch-nodejs-version",
     "markdownify",
+    "ruff"
 ]
 build-backend = "hatchling.build"
 
@@ -77,7 +78,7 @@ version_cmd = "hatch version"
 
 [tool.jupyter-releaser.hooks]
 before-build-npm = [
-    "python -m pip install 'jupyterlab>=4.0.0,<5' markdownify",
+    "python -m pip install 'jupyterlab>=4.0.0,<5' markdownify ruff",
     "jlpm",
     "jlpm build:prod",
 ]
@@ -85,3 +86,9 @@ before-build-python = ["jlpm clean:all"]
 
 [tool.check-wheel-contents]
 ignore = ["W002"]
+
+[tool.ruff]
+respect-gitignore = false
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]

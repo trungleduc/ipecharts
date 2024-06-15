@@ -5,7 +5,6 @@ import subprocess
 
 from .download_data import download_data
 from .codegen import CodeGen
-import requests
 
 OPTION_URL = "https://raw.githubusercontent.com/apache/echarts-website/asf-site/en/documents/option.json"
 OPTION_GL_URL = "https://raw.githubusercontent.com/apache/echarts-website/asf-site/en/documents/option-gl.json"
@@ -35,7 +34,7 @@ def generate():
     generator.generate(output=output, ts_output=ts_output)
 
     subprocess.run(
-        ["python", "-m", "black", f"{output}", "--exclude", ".git"],
+        ["python", "-m", "ruff", f"{output}", "--fix"],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
