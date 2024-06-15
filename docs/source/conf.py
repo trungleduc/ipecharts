@@ -27,6 +27,8 @@ import os
 from os.path import dirname, join as pjoin
 from sphinx.util import logging
 
+
+
 extensions = [
     "autodoc_traits",
     "sphinx.ext.autodoc",
@@ -49,6 +51,7 @@ docs = dirname(dirname(__file__))
 root = dirname(docs)
 sys.path.insert(0, root)
 sys.path.insert(0, pjoin(docs, "sphinxext"))
+sys.path.insert(0, pjoin(root, "ipecharts"))
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

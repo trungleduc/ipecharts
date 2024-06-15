@@ -1,4 +1,3 @@
-
 <h1 align="center">ipecharts</h1>
 
 [![Github Actions Status](https://github.com/trungleduc/ipecharts/workflows/Build/badge.svg)](https://github.com/trungleduc/ipecharts/actions/workflows/build.yml)
