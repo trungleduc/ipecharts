@@ -1,7 +1,7 @@
 {
     "name": "ipecharts",
     "version": "0.1.0",
-    "description": "A JupyterLab extension.",
+    "description": "Apache Echarts Jupyter Widget.",
     "keywords": [
         "jupyter",
         "jupyterlab",

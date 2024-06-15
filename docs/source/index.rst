@@ -11,7 +11,7 @@ ipecharts Documentation
 
     Apache ECharts Jupyter widgets.
 
-Ipecharts brings interactive widgets based on `Apache ECharts <https://echarts.apache.org/en/index.html>`_. charting library to the Jupyter ecosystem.
+`ipecharts` brings interactive widgets based on `Apache ECharts <https://echarts.apache.org/en/index.html>`_. charting library to the Jupyter ecosystem.
 
 
 Installation
@@ -131,7 +131,7 @@ Configure widget with Traitlets
 
 Each key in the `option dictionary <https://echarts.apache.org/en/option.html#title>`_ of `ECharts` has an equivalent configuration class with the same name. These classes contain traits with the same name as the corresponding EChart option. Any change of these traits will be propagated to the top-level widget and then the chart will be updated automatically.
 
-For instance, you can compare the scatter option of `Echarts` at https://echarts.apache.org/en/option.html#series-scatter.type and the equivalent `Scatter class </api/ipecharts.option.seriesitems.html#module-ipecharts.option.seriesitems.scatter>`_. The python class is generated automatically from the Echarts option.
+For instance, you can compare the scatter option of `Echarts` at https://echarts.apache.org/en/option.html#series-scatter.type and the equivalent `Scatter class <https://ipecharts.readthedocs.io/en/latest/api/ipecharts.option.seriesitems.html#module-ipecharts.option.seriesitems.scatter>`_. The python class is generated automatically from the Echarts option.
 
 
 By using the Traitlets to configure your widget. You can use `EChartsWidget` with other widgets in Jupyter ecosystem, here is an example of controlling the chart with ipywidgets `Button`:
@@ -162,7 +162,7 @@ By using the Traitlets to configure your widget. You can use `EChartsWidget` wit
 .. figure:: images/ipechart3.gif
 
 .. note::
- Reference to the series configurations can be found `here </api/ipecharts.option.seriesitems.html>`_, but it is more legible to use directly the `documentation of Echarts <https://echarts.apache.org/en/option.html>`_.
+ Reference to the series configurations can be found `here <https://ipecharts.readthedocs.io/en/latest/api/ipecharts.option.seriesitems.html>`_, but it is more legible to use directly the `documentation of Echarts <https://echarts.apache.org/en/option.html>`_.
 
 API Reference
 ********************************
