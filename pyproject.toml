@@ -4,7 +4,9 @@ requires = [
     "jupyterlab>=4.0.0,<5",
     "hatch-nodejs-version",
     "markdownify",
-    "ruff"
+    "autodoc-traits",
+    "sphinx",
+    "ruff",
 ]
 build-backend = "hatchling.build"
 
@@ -37,7 +39,7 @@ source = "nodejs"
 fields = ["description", "authors", "urls"]
 
 [tool.hatch.build.targets.sdist]
-artifacts = ["ipecharts/labextension", "ipecharts/option" ]
+artifacts = ["ipecharts/labextension", "ipecharts/option"]
 exclude = [".github", "binder"]
 
 [tool.hatch.build.targets.wheel]
@@ -78,7 +80,7 @@ version_cmd = "hatch version"
 
 [tool.jupyter-releaser.hooks]
 before-build-npm = [
-    "python -m pip install 'jupyterlab>=4.0.0,<5' markdownify ruff",
+    "python -m pip install 'jupyterlab>=4.0.0,<5' markdownify ruff autodoc-traits sphinx",
     "jlpm",
     "jlpm build:prod",
 ]

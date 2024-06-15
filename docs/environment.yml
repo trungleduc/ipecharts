@@ -1,0 +1,12 @@
+name: ipecharts
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - nodejs
+  - jupyter_sphinx
+  - sphinx
+  - pydata-sphinx-theme
+  - yarn=3
+  - myst-parser
+  - autodoc-traits

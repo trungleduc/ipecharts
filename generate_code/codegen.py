@@ -44,14 +44,10 @@ class CodeGen:
         cls_name = capitalize(trait_name)
 
         properties: Dict = trait_value.get("properties", {})
-        desc += "<h4>Available traits</h4>\n"
-        desc += "<ul>"
+
         for name, props in properties.items():
-            props_desc: str = props.get("description", "")
-            if len(props_desc) > 0:
-                desc += f" <li> {name} : {props_desc.strip()} </li>"
             traits.append(generate_trait(name, props, type_value=type_value))
-        desc += "</ul>"
+
         self._write_to_py_file(cls_name, desc, traits, [], output)
         self._init_content[cls_name.lower()] = cls_name
         self._write_to_ts_file(cls_name=cls_name, defaults=defaults, output=ts_output)
@@ -73,6 +69,10 @@ class CodeGen:
         defaults = []
         out_dir = output / f"{trait_name.lower()}items"
         out_dir.mkdir(exist_ok=True)
+        init_path = out_dir / "__init__.py"
+        if not init_path.exists():
+            open(init_path, "a").close()
+
         ts_out_dir = ts_output / f"{trait_name.lower()}items"
         ts_out_dir.mkdir(exist_ok=True)
         if "anyOf" in items:

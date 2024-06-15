@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from shutil import rmtree
+import shutil
 import subprocess
 
 from .download_data import download_data
@@ -9,6 +10,7 @@ from .codegen import CodeGen
 OPTION_URL = "https://raw.githubusercontent.com/apache/echarts-website/asf-site/en/documents/option.json"
 OPTION_GL_URL = "https://raw.githubusercontent.com/apache/echarts-website/asf-site/en/documents/option-gl.json"
 
+ROOT = Path(__file__).parents[1]
 
 def generate():
     here = Path(__file__).parent
@@ -41,6 +43,15 @@ def generate():
 
     with open(output / "basewidget.py", "w") as f:
         f.write("from ..basewidget import BaseWidget")
+
+    doc_path = ROOT / "docs/source/api"
+    if doc_path.exists():
+        shutil.rmtree(doc_path)
+    subprocess.run(
+        ["python", "-m", "sphinx.ext.apidoc", "-o", str(doc_path), "ipecharts"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
 
 
 if __name__ == "__main__":
