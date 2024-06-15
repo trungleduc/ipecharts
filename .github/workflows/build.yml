@@ -119,6 +119,7 @@ jobs:
         run: |
           set -eux
           python -m pip install ipecharts*.whl
+          cp ipecharts*.whl ./lite/ipecharts-x.x.x-py3-none-any.whl
 
       - name: Build the lite site
         shell: bash -l {0}
@@ -126,6 +127,7 @@ jobs:
         run: |
           set -eux
           mkdir -p content && cp -r ../example/. ./content/
+
           jupyter lite build --contents content --output-dir dist --XeusAddon.mount_jupyterlite_content=True
 
       - name: Upload artifact

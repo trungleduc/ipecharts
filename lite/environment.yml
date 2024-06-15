@@ -7,4 +7,4 @@ dependencies:
   - ipywidgets
   - numpy
   - pip:
-    - ../ipecharts-0.1.0-py3-none-any.whl
+    - ./ipecharts-x.x.x-py3-none-any.whl
