@@ -10,3 +10,6 @@ dependencies:
   - yarn=3
   - myst-parser
   - autodoc-traits
+  - markdownify
+  - ruff
+  - jinja2
