@@ -1,7 +1,11 @@
-# ipecharts - Apache Echarts Jupyter Widget
+
+<h1 align="center">ipecharts</h1>
 
 [![Github Actions Status](https://github.com/trungleduc/ipecharts/workflows/Build/badge.svg)](https://github.com/trungleduc/ipecharts/actions/workflows/build.yml)
+[![Documentation Status](https://readthedocs.org/projects/ipecharts/badge/?version=latest)](https://ipecharts.readthedocs.io/en/latest/?badge=latest)
 [![Try on lite](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://trungleduc.github.io/ipecharts/)
+
+<h2 align="center"> Apache Echarts Jupyter Widget </h2>
 
 `ipecharts` brings interactive widgets based on [Apache ECharts](https://echarts.apache.org/en/index.html) charting library to the Jupyter ecosystem. By using the Jupyter Widget protocol, `ipecharts` is fully compatible with other widget libraries and tools in the Jupyter ecosystem.
 
@@ -10,9 +14,15 @@ https://github.com/trungleduc/ipecharts/assets/4451292/c6e73b4d-61ef-4098-a274-9
 > [!NOTE]  
 > [`pyecharts`](https://pyecharts.org) also supports using Echarts in the notebook, but they are not using Jupyter Widget like `ipecharts`. In this library, HTML code is injected into the notebook to render the chart.
 
-## Requirements
+## Try it online!
 
-- ipywidgets >= 8.0.0
+You can try it online by clicking on this badge:
+
+[![Try on lite](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://trungleduc.github.io/ipecharts/)
+
+## Documentation
+
+You can read the documentation following this link: https://ipecharts.readthedocs.io/
 
 ## Installation
 
