@@ -57,7 +57,29 @@ export class {{class_name}}Model extends WidgetModel {
     this.listenTo(this, 'change', this.valueChanged);
   }
 
-  valueChanged(): void {
+  valueChanged(m: {{class_name}}Model): void {
+    if (m.changed) {
+      Object.values(m.changed).forEach(it => {
+        if (Array.isArray(it)) {
+          it.forEach(subModel => {
+            if (subModel?.model_id) {
+              {{class_name}}Model.updateManager?.registerChildModel({
+                child: subModel,
+                parent: m
+              });
+            }
+          });
+        } else {
+          if (it?.model_id) {
+            {{class_name}}Model.updateManager?.registerChildModel({
+              child: it,
+              parent: m
+            });
+          }
+        }
+      });
+    }
+
     if ({{class_name}}Model.updateManager) {
       {{class_name}}Model.updateManager.sendUpdateSignal(this);
       this.comm?.on_close(() => {

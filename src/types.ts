@@ -8,6 +8,10 @@ export interface IUpdateManager {
   findRoot(modeId: DOMWidgetModel): DOMWidgetModel[];
   sendUpdateSignal(modeId: DOMWidgetModel): void;
   registerModel(model: DOMWidgetModel): void;
+  registerChildModel(options: {
+    child: DOMWidgetModel;
+    parent: DOMWidgetModel;
+  }): void;
   unregisterModel(model: DOMWidgetModel): void;
 }
 
