@@ -45,18 +45,29 @@ class UpdateManager implements IUpdateManager {
   registerModel(model: DOMWidgetModel): void {
     const setParentId = (m: any) => {
       if (m?.['model_id']) {
-        if (this._modelMap.has(m)) {
-          const currentSet = this._modelMap.get(m);
-          currentSet?.add(model);
-        } else {
-          this._modelMap.set(m, new Set([model]));
-        }
+        this.registerChildModel({ child: m, parent: model });
       } else if (Array.isArray(m)) {
         m.forEach(c => setParentId(c));
       }
     };
     Object.values(model.attributes).forEach(m => setParentId(m));
   }
+
+  registerChildModel(options: {
+    child: DOMWidgetModel;
+    parent: DOMWidgetModel;
+  }): void {
+    const { child, parent } = options;
+    if (child?.model_id && parent?.model_id) {
+      if (this._modelMap.has(child)) {
+        const currentSet = this._modelMap.get(child);
+        currentSet?.add(parent);
+      } else {
+        this._modelMap.set(child, new Set([parent]));
+      }
+    }
+  }
+
   unregisterModel(model: DOMWidgetModel): void {
     this._modelMap.delete(model);
   }
