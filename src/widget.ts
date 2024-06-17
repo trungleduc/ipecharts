@@ -42,8 +42,32 @@ export class EChartsWidgetModel extends DOMWidgetModel {
     if (EChartsWidgetModel.updateManager) {
       EChartsWidgetModel.updateManager.registerModel(this);
     }
+    this.listenTo(this, 'change', this.valueChanged);
   }
 
+  valueChanged(m: EChartsWidgetModel): void {
+    if (m?.changed) {
+      Object.values(m.changed).forEach(it => {
+        if (Array.isArray(it)) {
+          it.forEach(subModel => {
+            if (subModel?.model_id) {
+              EChartsWidgetModel.updateManager?.registerChildModel({
+                child: subModel,
+                parent: m
+              });
+            }
+          });
+        } else {
+          if (it?.model_id) {
+            EChartsWidgetModel.updateManager?.registerChildModel({
+              child: it,
+              parent: m
+            });
+          }
+        }
+      });
+    }
+  }
   static updateManager: IUpdateManager | null = null;
 
   static model_name = 'EChartsWidgetModel';

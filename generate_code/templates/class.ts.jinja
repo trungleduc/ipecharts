@@ -58,7 +58,7 @@ export class {{class_name}}Model extends WidgetModel {
   }
 
   valueChanged(m: {{class_name}}Model): void {
-    if (m.changed) {
+    if (m?.changed) {
       Object.values(m.changed).forEach(it => {
         if (Array.isArray(it)) {
           it.forEach(subModel => {
