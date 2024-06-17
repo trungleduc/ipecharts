@@ -1,6 +1,6 @@
 {
     "name": "ipecharts",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Apache Echarts Jupyter Widget.",
     "keywords": [
         "jupyter",

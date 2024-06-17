@@ -2,6 +2,22 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.0.3
+
+([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.0.2...3fff7d5ed4662f58012597af37ab94737a2033f3))
+
+### Enhancements made
+
+- Fix update logic again [#3](https://github.com/trungleduc/ipecharts/pull/3) ([@trungleduc](https://github.com/trungleduc))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2024-06-16&to=2024-06-17&type=c))
+
+[@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2024-06-16..2024-06-17&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.0.2
 
 ([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.0.1...c0f24dfeeffc388ba8f2b27048c38c5466bf2026))
@@ -15,8 +31,6 @@
 ([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2024-06-15&to=2024-06-16&type=c))
 
 [@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2024-06-15..2024-06-16&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.0.1
 
