@@ -12,21 +12,11 @@ Subpackages
 Submodules
 ----------
 
-ipecharts.basewidget module
----------------------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: ipecharts.basewidget
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-ipecharts.echarts module
-------------------------
-
-.. automodule:: ipecharts.echarts
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   ipecharts.basewidget
+   ipecharts.echarts
 
 Module contents
 ---------------

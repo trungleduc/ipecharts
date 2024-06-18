@@ -4,21 +4,11 @@ ipecharts.option.visualmapitems package
 Submodules
 ----------
 
-ipecharts.option.visualmapitems.continuous module
--------------------------------------------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: ipecharts.option.visualmapitems.continuous
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-ipecharts.option.visualmapitems.piecewise module
-------------------------------------------------
-
-.. automodule:: ipecharts.option.visualmapitems.piecewise
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   ipecharts.option.visualmapitems.continuous
+   ipecharts.option.visualmapitems.piecewise
 
 Module contents
 ---------------
