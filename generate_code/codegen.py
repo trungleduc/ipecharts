@@ -166,7 +166,7 @@ class CodeGen:
 
         content = template.render(**resources)
         file_path = output / f"{cls_name.lower()}.py"
-        with open(file_path, "w") as f:
+        with open(file_path, "w", encoding='UTF-8') as f:
             f.write(content)
 
     def _write_to_ts_file(
@@ -188,14 +188,15 @@ class CodeGen:
 
         content = template.render(**resources)
         ts_file_name = output / f"{cls_name.lower()}.ts"
-        with open(ts_file_name, "w") as f:
+        with open(ts_file_name, "w", encoding='UTF-8') as f:
             f.write(content)
         self._ts_files.append(str(ts_file_name))
 
     def _write_ts_index(self, ts_output: Path):
-        with open(ts_output / "index.ts", "w") as f:
+        with open(ts_output / "index.ts", "w", encoding='UTF-8') as f:
             for file in self._ts_files:
-                export_path = file.replace(".ts", "").replace(str(ts_output), ".")
+                export_path = Path(file).relative_to(ts_output).as_posix()
+                export_path = f"./{export_path.replace('.ts', '')}"
                 f.writelines(f"export * from '{export_path}';\n")
 
         with open(ts_output / "version.ts", "w") as f:
@@ -219,7 +220,7 @@ class CodeGen:
                 )
 
         content_str = "\n".join(content)
-        with open(init_path, "w") as f:
+        with open(init_path, "w", encoding='UTF-8') as f:
             f.write(content_str)
 
     def generate(self, output: Path, ts_output: Path):
