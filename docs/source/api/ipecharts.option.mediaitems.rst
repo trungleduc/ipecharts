@@ -4,13 +4,10 @@ ipecharts.option.mediaitems package
 Submodules
 ----------
 
-ipecharts.option.mediaitems.mediaitem module
---------------------------------------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: ipecharts.option.mediaitems.mediaitem
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   ipecharts.option.mediaitems.mediaitem
 
 Module contents
 ---------------

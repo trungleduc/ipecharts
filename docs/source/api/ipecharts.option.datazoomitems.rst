@@ -4,21 +4,11 @@ ipecharts.option.datazoomitems package
 Submodules
 ----------
 
-ipecharts.option.datazoomitems.inside module
---------------------------------------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: ipecharts.option.datazoomitems.inside
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-ipecharts.option.datazoomitems.slider module
---------------------------------------------
-
-.. automodule:: ipecharts.option.datazoomitems.slider
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   ipecharts.option.datazoomitems.inside
+   ipecharts.option.datazoomitems.slider
 
 Module contents
 ---------------

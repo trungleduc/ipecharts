@@ -48,7 +48,15 @@ def generate():
     if doc_path.exists():
         shutil.rmtree(doc_path)
     subprocess.run(
-        ["python", "-m", "sphinx.ext.apidoc", "-o", str(doc_path), "ipecharts"],
+        [
+            "python",
+            "-m",
+            "sphinx.ext.apidoc",
+            "-e",
+            "-o",
+            str(doc_path),
+            "ipecharts",
+        ],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
