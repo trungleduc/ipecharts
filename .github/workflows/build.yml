@@ -103,7 +103,7 @@ jobs:
           environment-name: build-env
           create-args: >-
             python=3.10
-            pip
+            pip=24.0
             jupyter_server
             jupyterlite-core>=0.3.0,<0.4.0
             jupyterlite-xeus>=0.1.8,<0.2
