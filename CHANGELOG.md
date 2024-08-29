@@ -2,6 +2,22 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.0.6
+
+([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.0.5...ccb7f5aa0641e623ced8609a23ae912212cba1bb))
+
+### Bugs fixed
+
+- Bundle `@lumino/polling` [#6](https://github.com/trungleduc/ipecharts/pull/6) ([@trungleduc](https://github.com/trungleduc))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2024-06-18&to=2024-08-29&type=c))
+
+[@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2024-06-18..2024-08-29&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.0.5
 
 ([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.0.4...cad6d7fa10b8962fc095450b179972036310f51d))
@@ -19,8 +35,6 @@
 ([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2024-06-17&to=2024-06-18&type=c))
 
 [@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2024-06-17..2024-06-18&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.0.4
 
