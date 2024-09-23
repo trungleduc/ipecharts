@@ -1,5 +1,5 @@
 from ipywidgets import DOMWidget, widget_serialization
-from traitlets import Dict, Instance, Unicode
+from traitlets import Dict, Instance, List, Unicode, observe
 
 from .option.option import Option
 from ._frontend import module_name, module_version
@@ -14,7 +14,10 @@ class EChartsWidget(DOMWidget):
     _view_module_version = Unicode(module_version).tag(sync=True)
 
     option = Instance(Option, kw={}, args=()).tag(sync=True, **widget_serialization)
-
+    style = Dict(
+        {},
+        help="Style configuration",
+    ).tag(sync=True)
 
 
 class EChartsRawWidget(DOMWidget):
@@ -25,4 +28,8 @@ class EChartsRawWidget(DOMWidget):
     _view_module = Unicode(module_name).tag(sync=True)
     _view_module_version = Unicode(module_version).tag(sync=True)
 
-    option = Dict(default_value={} ).tag(sync=True, **widget_serialization)
+    option = Dict(default_value={}).tag(sync=True, **widget_serialization)
+    style = Dict(
+        {},
+        help="Style configuration",
+    ).tag(sync=True)

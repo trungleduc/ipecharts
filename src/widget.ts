@@ -27,7 +27,8 @@ export class EChartsWidgetModel extends DOMWidgetModel {
       _view_name: EChartsWidgetModel.view_name,
       _view_module: EChartsWidgetModel.view_module,
       _view_module_version: EChartsWidgetModel.view_module_version,
-      option: {}
+      option: {},
+      style: {}
     };
   }
 
@@ -112,6 +113,7 @@ export class EChartsWidgetView extends DOMWidgetView {
     this._myChart = echarts.init(this.el, currentTheme);
 
     this._myChart.setOption(this._createOptionDict());
+    this.setStyle();
   }
 
   value_changed() {
@@ -124,7 +126,31 @@ export class EChartsWidgetView extends DOMWidgetView {
       window.dispatchEvent(new Event('resize'));
     }
   }
+  setStyle(): void {
+    const style: { [key: string]: string } = this.model.get('style');
+    if (!style) {
+      return;
+    }
+    for (const [key, value] of Object.entries(style)) {
+      const fixedKey = key
+        .split(/(?=[A-Z])/)
+        .map(s => s.toLowerCase())
+        .join('-');
 
+      if (this.el.style) {
+        this.el.style.setProperty(fixedKey, value);
+      }
+    }
+    if (this._myChart) {
+      this._myChart.resize();
+    }
+  }
+  update_classes(old_classes: string[], new_classes: string[]): void {
+    super.update_classes(old_classes, new_classes);
+    if (this._myChart) {
+      this._myChart.resize();
+    }
+  }
   _createOptionDict(): { [key: string]: any } {
     const option = this.model.get('option');
     const optionDict: { [key: string]: any } = option.toDict();
