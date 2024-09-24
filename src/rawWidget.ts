@@ -21,7 +21,8 @@ export class EChartsRawWidgetModel extends DOMWidgetModel {
       _view_name: EChartsRawWidgetModel.view_name,
       _view_module: EChartsRawWidgetModel.view_module,
       _view_module_version: EChartsRawWidgetModel.view_module_version,
-      option: {}
+      option: {},
+      style: {}
     };
   }
 
@@ -71,6 +72,31 @@ export class EChartsRawWidgetView extends DOMWidgetView {
   processLuminoMessage(msg: any) {
     if (msg['type'] === 'resize' || msg['type'] === 'after-attach') {
       window.dispatchEvent(new Event('resize'));
+    }
+  }
+  setStyle(): void {
+    const style: { [key: string]: string } = this.model.get('style');
+    if (!style) {
+      return;
+    }
+    for (const [key, value] of Object.entries(style)) {
+      const fixedKey = key
+        .split(/(?=[A-Z])/)
+        .map(s => s.toLowerCase())
+        .join('-');
+
+      if (this.el.style) {
+        this.el.style.setProperty(fixedKey, value);
+      }
+    }
+    if (this._myChart) {
+      this._myChart.resize();
+    }
+  }
+  update_classes(old_classes: string[], new_classes: string[]): void {
+    super.update_classes(old_classes, new_classes);
+    if (this._myChart) {
+      this._myChart.resize();
     }
   }
   static themeManager: IThemeManager | null = null;
