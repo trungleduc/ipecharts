@@ -2,6 +2,22 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.0.7
+
+([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.0.6...21d5cf521d53adaf99fe42d5bd95ca253cb9a3d4))
+
+### Enhancements made
+
+- feat: add style config [#10](https://github.com/trungleduc/ipecharts/pull/10) ([@dfguerrerom](https://github.com/dfguerrerom))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2024-08-29&to=2024-09-24&type=c))
+
+[@dfguerrerom](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Adfguerrerom+updated%3A2024-08-29..2024-09-24&type=Issues) | [@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2024-08-29..2024-09-24&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.0.6
 
 ([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.0.5...ccb7f5aa0641e623ced8609a23ae912212cba1bb))
@@ -15,8 +31,6 @@
 ([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2024-06-18&to=2024-08-29&type=c))
 
 [@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2024-06-18..2024-08-29&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.0.5
 
