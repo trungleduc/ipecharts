@@ -162,6 +162,66 @@ display(button, chart)
 
 ![ipechart2](./docs/source/images/ipechart3.gif)
 
+### Customize the chart container style
+
+Both `EChartsWidget` and `EChartsRawWidget` classes allow you to customize the style of the chart container by setting the style attribute. The style attribute accepts a dictionary where keys are CSS property names in camelCase or kebab-case (as strings), and values are the corresponding CSS values.
+
+Example: 'backgroundColor': '#f0f0f0' or 'background-color': '#f0f0f0'
+
+```python
+
+from ipecharts import EChartsWidget
+from ipecharts.option import Option, XAxis, YAxis
+from ipecharts.option.series import Line
+
+# Define the data for the line series
+line = Line(
+    data=[820, 932, 901, 934, 1290, 1330, 1320],
+    areaStyle={}
+)
+
+# Create the option object with xAxis, yAxis, and series
+option = Option(
+    xAxis=XAxis(
+        type="category",
+        boundaryGap=False,
+        data=["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    ),
+    yAxis=YAxis(type="value"),
+    series=[line]
+)
+
+# Define the style for the widget
+style = {
+    'width': '450px',
+    'height': '300px',
+    'border': '5px solid #ccc'
+}
+
+# Create the EChartsWidget with the option and style
+chart = EChartsWidget(option=option, style=style)
+
+# Display the chart
+chart
+```
+
+After the widget has been created and displayed, you can update its style by modifying the style attribute.
+
+```python
+
+# Update the style of the chart
+chart.style = {
+    'width': '800px',
+    'height': '600px',
+    'border': '2px solid #000'
+}
+
+# The widget will automatically update to reflect the new styles.
+
+```
+
+![updateStyle](./docs/source/images/update_style.mp4)
+
 ## Contributing
 
 ### Development install
