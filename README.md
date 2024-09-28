@@ -220,7 +220,7 @@ chart.style = {
 
 ```
 
-![updateStyle](./docs/source/images/update_style.mp4)
+https://github.com/user-attachments/assets/e4245101-8dff-40a9-a4d4-1f75a06b88c4
 
 ## Contributing
 
