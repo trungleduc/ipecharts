@@ -1,104 +1,31 @@
 // Copyright (c) Trung Le
 // Distributed under the terms of the Modified BSD License.
-import {
-  DOMWidgetModel,
-  DOMWidgetView,
-  WidgetView
-} from '@jupyter-widgets/base';
-import { IThemeManager } from '@jupyterlab/apputils';
-import { Debouncer } from '@lumino/polling';
 import * as echarts from 'echarts';
 import 'echarts-gl';
 import { isLightTheme } from './tools';
-import { MODULE_NAME, MODULE_VERSION } from './version';
-export class EChartsRawWidgetModel extends DOMWidgetModel {
+import { BaseEChartsWidgetModel, BaseEChartsWidgetView } from './baseWidget';
+export class EChartsRawWidgetModel extends BaseEChartsWidgetModel {
   defaults() {
     return {
       ...super.defaults(),
       _model_name: EChartsRawWidgetModel.model_name,
-      _model_module: EChartsRawWidgetModel.model_module,
-      _model_module_version: EChartsRawWidgetModel.model_module_version,
-      _view_name: EChartsRawWidgetModel.view_name,
-      _view_module: EChartsRawWidgetModel.view_module,
-      _view_module_version: EChartsRawWidgetModel.view_module_version,
-      option: {},
-      style: {}
+      _view_name: EChartsRawWidgetModel.view_name
     };
   }
 
   static model_name = 'EChartsRawWidgetModel';
-  static model_module = MODULE_NAME;
-  static model_module_version = MODULE_VERSION;
-  static view_name = 'EChartsRawWidgetView'; // Set to null if no view
-  static view_module = MODULE_NAME; // Set to null if no view
-  static view_module_version = MODULE_VERSION;
+  static view_name = 'EChartsRawWidgetView';
 }
 
-export class EChartsRawWidgetView extends DOMWidgetView {
-  initialize(
-    parameters: WidgetView.IInitializeParameters<DOMWidgetModel>
-  ): void {
-    super.initialize(parameters);
-    if (EChartsRawWidgetView.themeManager) {
-      const themeManager = EChartsRawWidgetView.themeManager;
-      themeManager.themeChanged.connect(() => {
-        const currentTheme = isLightTheme() ? 'light' : 'dark';
-        if (this._myChart) {
-          this._myChart.dispose();
-          this._myChart = echarts.init(this.el, currentTheme);
-          this._myChart.setOption(this.model.get('option'));
-        }
-      });
-    }
-    const resizeChart = () => this._myChart?.resize();
-    const debouncer = new Debouncer(resizeChart, 100);
-    window.addEventListener('resize', () => {
-      debouncer.invoke();
-    });
+export class EChartsRawWidgetView extends BaseEChartsWidgetView {
+  value_changed(): void {
+    //no-op
   }
 
-  render() {
-    super.render();
-
+  protected initEcharts(): void {
     const currentTheme = isLightTheme() ? 'light' : 'dark';
     const chartOption = this.model.get('option');
-
-    const widget = this.luminoWidget;
-    widget.addClass('echarts-widget');
     this._myChart = echarts.init(this.el, currentTheme);
     this._myChart.setOption(chartOption);
   }
-
-  processLuminoMessage(msg: any) {
-    if (msg['type'] === 'resize' || msg['type'] === 'after-attach') {
-      window.dispatchEvent(new Event('resize'));
-    }
-  }
-  setStyle(): void {
-    const style: { [key: string]: string } = this.model.get('style');
-    if (!style) {
-      return;
-    }
-    for (const [key, value] of Object.entries(style)) {
-      const fixedKey = key
-        .split(/(?=[A-Z])/)
-        .map(s => s.toLowerCase())
-        .join('-');
-
-      if (this.el.style) {
-        this.el.style.setProperty(fixedKey, value);
-      }
-    }
-    if (this._myChart) {
-      this._myChart.resize();
-    }
-  }
-  update_classes(old_classes: string[], new_classes: string[]): void {
-    super.update_classes(old_classes, new_classes);
-    if (this._myChart) {
-      this._myChart.resize();
-    }
-  }
-  static themeManager: IThemeManager | null = null;
-  private _myChart?: echarts.ECharts;
 }

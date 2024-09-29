@@ -10,6 +10,7 @@ import { IJupyterWidgetRegistry } from '@jupyter-widgets/base';
 
 import * as widgetExports from './widget';
 import * as rawWidgetExports from './rawWidget';
+import { BaseEChartsWidgetModel, BaseEChartsWidgetView } from './baseWidget';
 import * as subWidgetExport from './option';
 
 import { MODULE_NAME, MODULE_VERSION } from './version';
@@ -43,14 +44,14 @@ function activateWidgetExtension(
     ...subWidgetExport,
     ...rawWidgetExports
   };
+  BaseEChartsWidgetModel.updateManager = updateManager;
   for (const Class of Object.values(allExports)) {
     if (Object.getOwnPropertyDescriptor(Class, 'updateManager')) {
       (Class as any).updateManager = updateManager;
     }
   }
   if (themeManager) {
-    widgetExports.EChartsWidgetView.themeManager = themeManager;
-    rawWidgetExports.EChartsRawWidgetView.themeManager = themeManager;
+    BaseEChartsWidgetView.themeManager = themeManager;
   }
   registry.registerWidget({
     name: MODULE_NAME,

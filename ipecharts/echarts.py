@@ -1,35 +1,14 @@
-from ipywidgets import DOMWidget, widget_serialization
-from traitlets import Dict, Instance, Unicode
-
-from .option.option import Option
-from ._frontend import module_name, module_version
+from traitlets import Unicode, Dict
+from ipywidgets import widget_serialization
+from .baseechartswidget import BaseEchartsWidget
 
 
-class EChartsWidget(DOMWidget):
+class EChartsWidget(BaseEchartsWidget):
     _model_name = Unicode("EChartsWidgetModel").tag(sync=True)
-    _model_module = Unicode(module_name).tag(sync=True)
-    _model_module_version = Unicode(module_version).tag(sync=True)
     _view_name = Unicode("EChartsWidgetView").tag(sync=True)
-    _view_module = Unicode(module_name).tag(sync=True)
-    _view_module_version = Unicode(module_version).tag(sync=True)
-
-    option = Instance(Option, kw={}, args=()).tag(sync=True, **widget_serialization)
-    style = Dict(
-        {},
-        help="Style configuration",
-    ).tag(sync=True)
 
 
-class EChartsRawWidget(DOMWidget):
+class EChartsRawWidget(BaseEchartsWidget):
     _model_name = Unicode("EChartsRawWidgetModel").tag(sync=True)
-    _model_module = Unicode(module_name).tag(sync=True)
-    _model_module_version = Unicode(module_version).tag(sync=True)
     _view_name = Unicode("EChartsRawWidgetView").tag(sync=True)
-    _view_module = Unicode(module_name).tag(sync=True)
-    _view_module_version = Unicode(module_version).tag(sync=True)
-
     option = Dict(default_value={}).tag(sync=True, **widget_serialization)
-    style = Dict(
-        {},
-        help="Style configuration",
-    ).tag(sync=True)
