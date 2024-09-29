@@ -14,12 +14,11 @@ module.exports = {
   retries: 0,
   use: {
     ...baseConfig.use,
-    trace: 'off',
-
+    trace: 'off'
   },
   expect: {
     toMatchSnapshot: {
-      maxDiffPixelRatio: 0.002,
-    },
-  },
+      maxDiffPixelRatio: 0.002
+    }
+  }
 };

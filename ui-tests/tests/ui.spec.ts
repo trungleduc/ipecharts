@@ -61,7 +61,7 @@ test.describe('UI Test', () => {
             const widget = await cell.locator('div.echarts-widget');
             const count = await widget.count();
             if (count > 0) {
-              widgetIndex +=1
+              widgetIndex += 1;
               await new Promise(_ => setTimeout(_, 1000));
               expect(await cell.screenshot()).toMatchSnapshot({
                 name: `Widget-at-cell-${widgetIndex}.png`
