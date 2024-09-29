@@ -1,0 +1,16 @@
+{
+  "name": "ipecharts-ui-tests",
+  "version": "1.0.0",
+  "description": "ipecharts Integration Tests",
+  "private": true,
+  "scripts": {
+    "start": "jupyter lab --config jupyter_server_test_config.py",
+    "test": "npx playwright test --workers 1",
+    "test:update": "npx playwright test --update-snapshots",
+    "test:debug": "PWDEBUG=1 npx playwright test --workers 1"
+  },
+  "devDependencies": {
+    "@jupyterlab/galata": "^5.2.5",
+    "@playwright/test": "^1.32.0"
+  }
+}

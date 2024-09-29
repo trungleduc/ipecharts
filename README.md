@@ -226,7 +226,7 @@ https://github.com/user-attachments/assets/e4245101-8dff-40a9-a4d4-1f75a06b88c4
 
 ### Development install
 
-Note: You will need NodeJS to build the extension package.
+Note: You will need `markdownify`, `autodoc-traits`, `sphinx` to generate the code
 
 The `jlpm` command is JupyterLab's pinned version of
 [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use

@@ -125,3 +125,6 @@ generate_code/option_gl.json
 generate_code/all_option.json
 ipecharts/option/
 src/option/
+
+ui-tests/playwright-report
+ui-tests/test-results

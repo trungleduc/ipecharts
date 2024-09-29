@@ -57,4 +57,5 @@ function activateWidgetExtension(
     version: MODULE_VERSION,
     exports: allExports
   });
+  console.log('ipecharts extension activated');
 }
