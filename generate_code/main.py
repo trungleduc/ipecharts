@@ -57,8 +57,8 @@ def generate():
             str(doc_path),
             "ipecharts",
         ],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
+        # stdout=subprocess.DEVNULL,
+        # stderr=subprocess.DEVNULL,
     )
 
 
