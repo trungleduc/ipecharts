@@ -15,6 +15,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   ipecharts.baseechartswidget
    ipecharts.basewidget
    ipecharts.echarts
 
