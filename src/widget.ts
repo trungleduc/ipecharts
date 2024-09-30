@@ -49,11 +49,8 @@ export class EChartsWidgetModel extends BaseEChartsWidgetModel {
   static updateManager: IUpdateManager | null = null;
 
   static model_name = 'EChartsWidgetModel';
-  static model_module = MODULE_NAME;
-  static model_module_version = MODULE_VERSION;
+
   static view_name = 'EChartsWidgetView'; // Set to null if no view
-  static view_module = MODULE_NAME; // Set to null if no view
-  static view_module_version = MODULE_VERSION;
 }
 
 export class EChartsWidgetView extends BaseEChartsWidgetView {

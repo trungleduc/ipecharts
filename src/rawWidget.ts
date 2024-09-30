@@ -6,11 +6,7 @@ import { MODULE_NAME, MODULE_VERSION } from './version';
 
 export class EChartsRawWidgetModel extends BaseEChartsWidgetModel {
   static model_name = 'EChartsRawWidgetModel';
-  static model_module = MODULE_NAME;
-  static model_module_version = MODULE_VERSION;
-  static view_name = 'EChartsRawWidgetView'; // Set to null if no view
-  static view_module = MODULE_NAME; // Set to null if no view
-  static view_module_version = MODULE_VERSION;
+  static view_name = 'EChartsRawWidgetView';
 }
 
 export class EChartsRawWidgetView extends BaseEChartsWidgetView {
