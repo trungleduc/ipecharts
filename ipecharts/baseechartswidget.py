@@ -18,7 +18,8 @@ class BaseEchartsWidget(DOMWidget):
     ).tag(sync=True)
 
     device_pixel_ratio = Float(
-        help="Ratio of one physical pixel to the size of one device independent pixels. Browser's window.devicePixelRatio is used by default."
+        allow_none=True,
+        help="Ratio of one physical pixel to the size of one device independent pixels. Browser's window.devicePixelRatio is used by default.",
     ).tag(sync=True)
     renderer = Unicode(
         default_value="canvas", help="Renderer type: 'canvas' or 'svg'"
@@ -32,6 +33,7 @@ class BaseEchartsWidget(DOMWidget):
         help="Whether to expand the response area when interacting with elements. null means enabling for mobile devices; true means always enabling; false means always disabling",
     ).tag(sync=True)
     pointer_size = Float(
+        allow_none=True,
         default_value=None,
         help="Size of expanded interaction size in pixels. It should be used along with use_coarse_pointer.",
     ).tag(sync=True)
