@@ -26,12 +26,14 @@ export abstract class BaseEChartsWidgetModel extends DOMWidgetModel {
       option: {},
       style: {},
       theme: null,
+      device_pixel_ratio: null,
       renderer: 'canvas',
-      device_pixel_ratio: window.devicePixelRatio,
-      locale: 'EN',
-      use_dirty_rect: false,
-      height: '',
-      width: ''
+      use_dirty_rect: null,
+      use_coarse_pointer: null,
+      pointer_size: null,
+      width: 'auto',
+      height: 'auto',
+      locale: 'EN'
     };
   }
   static serializers: ISerializers = {

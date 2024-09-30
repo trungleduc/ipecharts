@@ -12,11 +12,38 @@ class BaseEchartsWidget(DOMWidget):
     _view_module_version = Unicode(module_version).tag(sync=True)
 
     option = Instance(Option, kw={}, args=()).tag(sync=True, **widget_serialization)
-    theme = Unicode(None, allow_none=True, help="Theme").tag(sync=True)
-    renderer = Unicode(default_value="canvas", help="Renderer type").tag(sync=True)
-    device_pixel_ratio = Float(help="Device pixel ratio").tag(sync=True)
-    locale = Unicode(default_value="EN", help="Locale").tag(sync=True)
-    use_dirty_rect = Bool(
-        default_value=False, help="Use dirty rectangle rendering"
-    ).tag(sync=True)
     style = Dict({}, help="Style configuration").tag(sync=True)
+    theme = Unicode(
+        None, allow_none=True, help="Theme to be applied. Defaults to ThemeManager."
+    ).tag(sync=True)
+
+    device_pixel_ratio = Float(
+        help="Ratio of one physical pixel to the size of one device independent pixels. Browser's window.devicePixelRatio is used by default."
+    ).tag(sync=True)
+    renderer = Unicode(
+        default_value="canvas", help="Renderer type: 'canvas' or 'svg'"
+    ).tag(sync=True)
+    use_dirty_rect = Bool(
+        default_value=False,
+        help="Enable dirty rectangle rendering or not, false by default.",
+    ).tag(sync=True)
+    use_coarse_pointer = Bool(
+        default_value=False,
+        help="Whether to expand the response area when interacting with elements. null means enabling for mobile devices; true means always enabling; false means always disabling",
+    ).tag(sync=True)
+    pointer_size = Float(
+        default_value=None,
+        help="Size of expanded interaction size in pixels. It should be used along with use_coarse_pointer.",
+    ).tag(sync=True)
+    width = Unicode(
+        default_value="auto",
+        help="Specify width explicitly, in pixel. If not set or set to None, a default .echarts-widget-auto-width class is added with 100%.",
+    ).tag(sync=True)
+    height = Unicode(
+        default_value="auto",
+        help="Specify height explicitly, in pixel. If not set or set to None, a default .echarts-widget-auto-height class is added with 500px.",
+    ).tag(sync=True)
+    locale = Unicode(
+        default_value="EN",
+        help="Specify the locale.There are two builtins: 'ZH' and 'EN'",
+    ).tag(sync=True)

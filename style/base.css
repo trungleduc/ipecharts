@@ -8,3 +8,11 @@
   width: 100%;
   height: 500px;
 }
+
+.echarts-widget-auto-width {
+  width: 100%;
+}
+
+.echarts-widget-auto-height {
+  height: 500px;
+}

@@ -10,7 +10,6 @@ import { isLightTheme } from './tools';
 
 export abstract class BaseEChartsWidgetView extends DOMWidgetView {
   initialize(parameters: WidgetView.IInitializeParameters): void {
-    console.log('BaseEChartsWidgetView.initialize!!!!!!!!!!');
     super.initialize(parameters);
     this.setupThemeListener();
     this.setupResizeListener();
@@ -18,10 +17,14 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     // Define arrays of properties
     const initProps = [
       'theme',
-      'renderer',
       'device_pixel_ratio',
-      'locale',
-      'use_dirty_rect'
+      'renderer',
+      'use_dirty_rect',
+      'use_coarse_pointer',
+      'pointer_size',
+      'width',
+      'height',
+      'locale'
     ];
     // Set up listeners for init properties
     initProps.forEach(prop => {
@@ -35,7 +38,14 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     super.render();
 
     const widget = this.luminoWidget;
-    widget.addClass('echarts-widget');
+
+    if (this.model.get('width') === 'auto') {
+      widget.addClass('echarts-widget-auto-width');
+    }
+    if (this.model.get('height') === 'auto') {
+      widget.addClass('echarts-widget-auto-height');
+    }
+
     this.initECharts();
     this.setStyle();
   }
@@ -60,21 +70,27 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
       if (BaseEChartsWidgetView.themeManager) {
         theme = isLightTheme() ? 'light' : 'dark';
       } else {
-        console.log('No theme manager found');
         theme = 'light';
       }
     }
-    const renderer = this.model.get('renderer') || 'canvas';
-    const devicePixelRatio =
-      this.model.get('device_pixel_ratio') || window.devicePixelRatio;
-    const locale = this.model.get('locale') || 'EN';
-    const useDirtyRect = this.model.get('use_dirty_rect') || false;
+    const devicePixelRatio = this.model.get('device_pixel_ratio');
+    const renderer = this.model.get('renderer');
+    const useDirtyRect = this.model.get('use_dirty_rect');
+    const useCoarsePointer = this.model.get('use_coarse_pointer');
+    const pointerSize = this.model.get('pointer_size');
+    const width = this.model.get('width');
+    const height = this.model.get('height');
+    const locale = this.model.get('locale');
 
     const initOptions = {
-      renderer,
       devicePixelRatio,
-      locale,
-      useDirtyRect
+      renderer,
+      useDirtyRect,
+      useCoarsePointer,
+      pointerSize,
+      width,
+      height,
+      locale
     };
 
     this._myChart = echarts.init(this.el, theme, initOptions);
