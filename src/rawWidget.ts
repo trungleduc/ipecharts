@@ -2,7 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
 import { BaseEChartsWidgetModel } from './baseWidgetModel';
 import { BaseEChartsWidgetView } from './baseWidgetView';
-import { MODULE_NAME, MODULE_VERSION } from './version';
 
 export class EChartsRawWidgetModel extends BaseEChartsWidgetModel {
   static model_name = 'EChartsRawWidgetModel';

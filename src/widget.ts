@@ -6,7 +6,6 @@ import { ISerializers, unpack_models } from '@jupyter-widgets/base';
 import { IUpdateManager } from './types';
 import { ObjectHash } from 'backbone';
 import { IBackboneModelOptions } from '@jupyter-widgets/base';
-import { MODULE_NAME, MODULE_VERSION } from './version';
 
 export class EChartsWidgetModel extends BaseEChartsWidgetModel {
   static serializers: ISerializers = {
