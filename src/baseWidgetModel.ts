@@ -9,6 +9,17 @@ import {
 import { MODULE_NAME, MODULE_VERSION } from './version';
 import { IUpdateManager } from './types';
 
+export const INIT_PROPS = {
+  theme: null,
+  device_pixel_ratio: null,
+  renderer: 'canvas',
+  use_dirty_rect: null,
+  use_coarse_pointer: null,
+  pointer_size: null,
+  width: 'auto',
+  height: 'auto',
+  locale: 'EN'
+};
 export abstract class BaseEChartsWidgetModel extends DOMWidgetModel {
   defaults() {
     const constructor = this.constructor as typeof BaseEChartsWidgetModel;
@@ -25,15 +36,7 @@ export abstract class BaseEChartsWidgetModel extends DOMWidgetModel {
 
       option: {},
       style: {},
-      theme: null,
-      device_pixel_ratio: null,
-      renderer: 'canvas',
-      use_dirty_rect: null,
-      use_coarse_pointer: null,
-      pointer_size: null,
-      width: 'auto',
-      height: 'auto',
-      locale: 'EN'
+      ...INIT_PROPS
     };
   }
   static serializers: ISerializers = {

@@ -1,11 +1,13 @@
 // Copyright (c) Trung Le
 // Distributed under the terms of the Modified BSD License.
+import 'echarts-gl';
 
 import { DOMWidgetView, WidgetView } from '@jupyter-widgets/base';
 import { IThemeManager } from '@jupyterlab/apputils';
 import { Debouncer } from '@lumino/polling';
 import * as echarts from 'echarts';
-import 'echarts-gl';
+
+import { BaseEChartsWidgetModel, INIT_PROPS } from './baseWidgetModel';
 import { isLightTheme } from './tools';
 
 export abstract class BaseEChartsWidgetView extends DOMWidgetView {
@@ -13,25 +15,7 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     super.initialize(parameters);
     this.setupThemeListener();
     this.setupResizeListener();
-
-    // Define arrays of properties
-    const initProps = [
-      'theme',
-      'device_pixel_ratio',
-      'renderer',
-      'use_dirty_rect',
-      'use_coarse_pointer',
-      'pointer_size',
-      'width',
-      'height',
-      'locale'
-    ];
-    // Set up listeners for init properties
-    initProps.forEach(prop => {
-      this.model.on(`change:${prop}`, this.recreateChart, this);
-    });
-    this.model.on('change:style', this.setStyle, this);
-    this.model.on('change', this.value_changed, this);
+    this.model.on('change', this.valueChanged, this);
   }
 
   render(): void {
@@ -56,11 +40,6 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     if (msgType === 'resize' || msgType === 'after-attach') {
       window.dispatchEvent(new Event('resize'));
     }
-  }
-
-  protected recreateChart(): void {
-    this._myChart?.dispose();
-    this.initECharts();
   }
 
   initECharts(): void {
@@ -97,13 +76,30 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     this._myChart.setOption(this._createOptionDict());
   }
 
-  value_changed() {
-    if (this._myChart) {
-      this._myChart.setOption(this._createOptionDict());
+  valueChanged(changedModel?: BaseEChartsWidgetModel) {
+    if (!changedModel) {
+      // Event from the update manager
+      this._myChart?.setOption(this._createOptionDict());
+      return;
     }
+    const changedDict = changedModel.changed ?? {};
+    Object.keys(changedDict).forEach(key => {
+      if (key in INIT_PROPS) {
+        // Init props changed
+        this.recreateChart();
+      } else if (key === 'style') {
+        // Style changed
+        this.setStyle();
+      } else {
+        // option or other keys changed
+        this._myChart?.setOption(this._createOptionDict());
+      }
+    });
   }
-
-  abstract _createOptionDict(): any;
+  update_classes(old_classes: string[], new_classes: string[]): void {
+    super.update_classes(old_classes, new_classes);
+    this._myChart?.resize();
+  }
 
   setStyle(): void {
     const style = (this.model.get('style') as { [key: string]: string }) || {};
@@ -112,6 +108,13 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
       this.el.style.setProperty(cssKey, value);
     }
     this._myChart?.resize();
+  }
+
+  abstract _createOptionDict(): any;
+
+  protected recreateChart(): void {
+    this._myChart?.dispose();
+    this.initECharts();
   }
 
   protected setupThemeListener(): void {
@@ -127,11 +130,6 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     const resizeChart = () => this._myChart?.resize();
     const debouncer = new Debouncer(resizeChart, 100);
     window.addEventListener('resize', () => debouncer.invoke());
-  }
-
-  update_classes(old_classes: string[], new_classes: string[]): void {
-    super.update_classes(old_classes, new_classes);
-    this._myChart?.resize();
   }
 
   static themeManager: IThemeManager | null = null;
