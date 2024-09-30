@@ -1,28 +1,63 @@
 // Copyright (c) Trung Le
 // Distributed under the terms of the Modified BSD License.
-import 'echarts-gl';
-
-import * as echarts from 'echarts';
-
-import { BaseEChartsWidgetModel, BaseEChartsWidgetView } from './baseWidget';
-import { isLightTheme } from './tools';
+import { BaseEChartsWidgetModel } from './baseWidgetModel';
+import { BaseEChartsWidgetView } from './baseWidgetView';
+import { ISerializers, unpack_models } from '@jupyter-widgets/base';
+import { IUpdateManager } from './types';
+import { ObjectHash } from 'backbone';
+import { IBackboneModelOptions } from '@jupyter-widgets/base';
+import { MODULE_NAME, MODULE_VERSION } from './version';
 
 export class EChartsWidgetModel extends BaseEChartsWidgetModel {
-  defaults() {
-    return {
-      ...super.defaults(),
-      _model_name: EChartsWidgetModel.model_name,
-      _view_name: EChartsWidgetModel.view_name
-    };
+  static serializers: ISerializers = {
+    ...BaseEChartsWidgetModel.serializers,
+    option: { deserialize: unpack_models as any }
+  };
+
+  initialize(attributes: ObjectHash, options: IBackboneModelOptions): void {
+    super.initialize(attributes, options);
+    if (EChartsWidgetModel.updateManager) {
+      EChartsWidgetModel.updateManager.registerModel(this);
+    }
+    this.listenTo(this, 'change', this.valueChanged);
   }
 
-  static model_name = 'EChartsWidgetModel';
+  valueChanged(m: EChartsWidgetModel): void {
+    if (m?.changed) {
+      Object.values(m.changed).forEach(it => {
+        if (Array.isArray(it)) {
+          it.forEach(subModel => {
+            if (subModel?.model_id) {
+              EChartsWidgetModel.updateManager?.registerChildModel({
+                child: subModel,
+                parent: m
+              });
+            }
+          });
+        } else {
+          if (it?.model_id) {
+            EChartsWidgetModel.updateManager?.registerChildModel({
+              child: it,
+              parent: m
+            });
+          }
+        }
+      });
+    }
+  }
 
+  static updateManager: IUpdateManager | null = null;
+
+  static model_name = 'EChartsWidgetModel';
+  static model_module = MODULE_NAME;
+  static model_module_version = MODULE_VERSION;
   static view_name = 'EChartsWidgetView'; // Set to null if no view
+  static view_module = MODULE_NAME; // Set to null if no view
+  static view_module_version = MODULE_VERSION;
 }
 
 export class EChartsWidgetView extends BaseEChartsWidgetView {
-  private _createOptionDict(): { [key: string]: any } {
+  _createOptionDict(): { [key: string]: any } {
     const option = this.model.get('option');
     const optionDict: { [key: string]: any } = option.toDict();
 
@@ -44,15 +79,5 @@ export class EChartsWidgetView extends BaseEChartsWidgetView {
     return chartOption;
   }
 
-  value_changed() {
-    if (this._myChart) {
-      this._myChart.setOption(this._createOptionDict());
-    }
-  }
-
-  protected initEcharts(): void {
-    const currentTheme = isLightTheme() ? 'light' : 'dark';
-    this._myChart = echarts.init(this.el, currentTheme);
-    this._myChart.setOption(this._createOptionDict());
-  }
+  static themeManager = BaseEChartsWidgetView.themeManager;
 }
