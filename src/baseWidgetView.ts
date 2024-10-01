@@ -38,7 +38,7 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
       this._myChart?.resize();
     }
     if (msgType === 'resize') {
-      window.dispatchEvent(new Event('resize'));
+      this._resizeDebouncer.invoke();
     }
   }
 
@@ -126,10 +126,15 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
   }
 
   protected setupResizeListener(): void {
-    const resizeChart = () => this._myChart?.resize();
-    const debouncer = new Debouncer(resizeChart, 100);
-    window.addEventListener('resize', () => debouncer.invoke());
+    window.addEventListener('resize', () => this._resizeDebouncer.invoke());
   }
+
+  private _resizeDebouncer = new Debouncer(() => {
+    if (this.el.clientWidth > 10 && this.el.clientHeight > 10) {
+      // Do not resize if the element is hidden
+      this._myChart?.resize();
+    }
+  }, 100);
 
   static themeManager: IThemeManager | null = null;
   protected _myChart?: echarts.ECharts;
