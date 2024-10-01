@@ -10,7 +10,8 @@ import { IJupyterWidgetRegistry } from '@jupyter-widgets/base';
 
 import * as widgetExports from './widget';
 import * as rawWidgetExports from './rawWidget';
-import { BaseEChartsWidgetModel, BaseEChartsWidgetView } from './baseWidget';
+import { BaseEChartsWidgetModel } from './baseWidgetModel';
+import { BaseEChartsWidgetView } from './baseWidgetView';
 import * as subWidgetExport from './option';
 
 import { MODULE_NAME, MODULE_VERSION } from './version';
