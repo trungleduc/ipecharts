@@ -23,10 +23,10 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
 
     const widget = this.luminoWidget;
 
-    if (this.model.get('width') === 'auto') {
+    if (['auto', null].includes(this.model.get('width'))) {
       widget.addClass('echarts-widget-auto-width');
     }
-    if (this.model.get('height') === 'auto') {
+    if (['auto', null].includes(this.model.get('height'))) {
       widget.addClass('echarts-widget-auto-height');
     }
 
