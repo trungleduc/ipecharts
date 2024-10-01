@@ -39,10 +39,12 @@ class BaseEchartsWidget(DOMWidget):
     ).tag(sync=True)
     width = Unicode(
         default_value="auto",
+        allow_none=True,
         help="Specify width explicitly, in pixel. If not set or set to None, a default .echarts-widget-auto-width class is added with 100%.",
     ).tag(sync=True)
     height = Unicode(
         default_value="auto",
+        allow_none=True,
         help="Specify height explicitly, in pixel. If not set or set to None, a default .echarts-widget-auto-height class is added with 500px.",
     ).tag(sync=True)
     locale = Unicode(
