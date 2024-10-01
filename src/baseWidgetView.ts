@@ -22,22 +22,22 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     super.render();
 
     const widget = this.luminoWidget;
-
     if (['auto', null].includes(this.model.get('width'))) {
       widget.addClass('echarts-widget-auto-width');
     }
     if (['auto', null].includes(this.model.get('height'))) {
       widget.addClass('echarts-widget-auto-height');
     }
-
-    this.initECharts();
     this.setStyle();
   }
 
   processLuminoMessage(msg: any): void {
     const msgType = msg.type as string;
-
-    if (msgType === 'resize' || msgType === 'after-attach') {
+    if (msgType === 'after-attach') {
+      this.initECharts();
+      this._myChart?.resize();
+    }
+    if (msgType === 'resize') {
       window.dispatchEvent(new Event('resize'));
     }
   }
@@ -71,7 +71,6 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
       height,
       locale
     };
-
     this._myChart = echarts.init(this.el, theme, initOptions);
     this._myChart.setOption(this._createOptionDict());
   }
