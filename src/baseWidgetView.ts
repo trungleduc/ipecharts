@@ -22,23 +22,23 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     super.render();
 
     const widget = this.luminoWidget;
-
     if (['auto', null].includes(this.model.get('width'))) {
       widget.addClass('echarts-widget-auto-width');
     }
     if (['auto', null].includes(this.model.get('height'))) {
       widget.addClass('echarts-widget-auto-height');
     }
-
-    this.initECharts();
     this.setStyle();
   }
 
   processLuminoMessage(msg: any): void {
     const msgType = msg.type as string;
-
-    if (msgType === 'resize' || msgType === 'after-attach') {
-      window.dispatchEvent(new Event('resize'));
+    if (msgType === 'after-attach') {
+      this.initECharts();
+      this._myChart?.resize();
+    }
+    if (msgType === 'resize') {
+      this._resizeDebouncer.invoke();
     }
   }
 
@@ -71,7 +71,6 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
       height,
       locale
     };
-
     this._myChart = echarts.init(this.el, theme, initOptions);
     this._myChart.setOption(this._createOptionDict());
   }
@@ -127,10 +126,15 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
   }
 
   protected setupResizeListener(): void {
-    const resizeChart = () => this._myChart?.resize();
-    const debouncer = new Debouncer(resizeChart, 100);
-    window.addEventListener('resize', () => debouncer.invoke());
+    window.addEventListener('resize', () => this._resizeDebouncer.invoke());
   }
+
+  private _resizeDebouncer = new Debouncer(() => {
+    if (this.el.clientWidth > 10 && this.el.clientHeight > 10) {
+      // Do not resize if the element is hidden
+      this._myChart?.resize();
+    }
+  }, 100);
 
   static themeManager: IThemeManager | null = null;
   protected _myChart?: echarts.ECharts;
