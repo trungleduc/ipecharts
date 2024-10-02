@@ -2,6 +2,35 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.0.8
+
+([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.0.7...04dd1d26c7c736bd1cee470cb135072882b43e24))
+
+### Enhancements made
+
+- refactor classes [#16](https://github.com/trungleduc/ipecharts/pull/16) ([@dfguerrerom](https://github.com/dfguerrerom))
+- Refactor widget classes [#14](https://github.com/trungleduc/ipecharts/pull/14) ([@trungleduc](https://github.com/trungleduc))
+
+### Bugs fixed
+
+- Defer chart init [#18](https://github.com/trungleduc/ipecharts/pull/18) ([@trungleduc](https://github.com/trungleduc))
+
+### Maintenance and upkeep improvements
+
+- Add integration tests [#15](https://github.com/trungleduc/ipecharts/pull/15) ([@trungleduc](https://github.com/trungleduc))
+
+### Documentation improvements
+
+- add dynamic style vide [#12](https://github.com/trungleduc/ipecharts/pull/12) ([@dfguerrerom](https://github.com/dfguerrerom))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2024-09-24&to=2024-10-02&type=c))
+
+[@dfguerrerom](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Adfguerrerom+updated%3A2024-09-24..2024-10-02&type=Issues) | [@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2024-09-24..2024-10-02&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.0.7
 
 ([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.0.6...21d5cf521d53adaf99fe42d5bd95ca253cb9a3d4))
@@ -15,8 +44,6 @@
 ([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2024-08-29&to=2024-09-24&type=c))
 
 [@dfguerrerom](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Adfguerrerom+updated%3A2024-08-29..2024-09-24&type=Issues) | [@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2024-08-29..2024-09-24&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.0.6
 
