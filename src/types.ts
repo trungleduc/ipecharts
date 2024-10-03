@@ -29,7 +29,7 @@ export interface IRegisterEventMsg {
 
 export interface IUnregisterEventMsg {
   action: 'unregister_event';
-  payload: { event: string; handler_id?: string };
+  payload: { event: string; id_to_remove?: string[] };
 }
 
 export type IKernelMsg = IRegisterEventMsg | IUnregisterEventMsg;
@@ -38,7 +38,7 @@ export interface IEventHandlerParams {
   action: 'event_handler_params';
   payload: {
     event: string;
-    query: string | IDict;
+    handlerId: string;
     params?: any;
   };
 }

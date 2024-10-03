@@ -58,18 +58,18 @@ class BaseEchartsWidget(DOMWidget):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._event_handlers: T.Dict[str, T.Dict[str, T.Dict[str, T.Callable]]] = {}
+        self._event_handlers: T.Dict[str, T.Dict[str, T.Callable]] = {}
         self.on_msg(self._handle_frontend_msg)
 
-    def on(self, event_name: str, handler: T.Callable):
+    def on(
+        self, event_name: str, query: T.Union[str, T.Dict, None], handler: T.Callable
+    ) -> str:
         handler_id = str(uuid4())
-        query = "__all__"
-        event_dict = self._event_handlers.setdefault(
-            event_name, {query: {handler_id: handler}}
-        )
-        handler_dict = event_dict.setdefault(query, {handler_id: handler})
-        if handler_id not in handler_dict:
-            handler_dict[handler_id] = handler
+        if query is None:
+            query = "__all__"
+        event_dict = self._event_handlers.setdefault(event_name, {handler_id: handler})
+        if handler_id not in event_dict:
+            event_dict[handler_id] = handler
 
         self.send(
             {
@@ -81,9 +81,9 @@ class BaseEchartsWidget(DOMWidget):
                 },
             }
         )
-        return handler_dict
+        return handler_id
 
-    def off(self, event_name: str, handler: T.Optional[T.Callable]):
+    def off(self, event_name: str, handler: T.Optional[T.Callable] = None):
         event_dict = self._event_handlers.get(event_name, {})
         if handler is None:
             # Remove all handler
@@ -95,15 +95,13 @@ class BaseEchartsWidget(DOMWidget):
                 }
             )
         else:
-            id_to_remove = {}
-            for query_name, query_dict in event_dict.items():
-                id_to_remove[query_name] = []
-                for handler_id, saved_handler in query_dict.items():
-                    if saved_handler == handler:
-                        id_to_remove[query_name].append(handler_id)
+            id_to_remove = []
+            for handler_id, saved_handler in event_dict.items():
+                if saved_handler == handler:
+                    id_to_remove.append(handler_id)
 
-                for uid in id_to_remove[query_name]:
-                    del query_dict[uid]
+            for uid in id_to_remove:
+                del event_dict[uid]
             self.send(
                 {
                     "action": MESSAGE_ACTION.UNREGISTER_EVENT,
@@ -118,8 +116,8 @@ class BaseEchartsWidget(DOMWidget):
         payload: T.Dict = msg.get("payload", {})
         if action == "event_handler_params":
             event = payload.get("event", None)
-            query = payload.get("query", None)
+            handler_id = payload.get("handlerId", None)
             params = payload.get("params", None)
-            handlers = self._event_handlers.get(event, {}).get(query, {})
-            for cb in handlers.values():
-                cb(params)
+            handler = self._event_handlers.get(event, {}).get(handler_id, None)
+            if handler is not None:
+                handler(params)

@@ -112,7 +112,6 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
   }
 
   onCustomMsg(data: IKernelMsg): void {
-    console.log('received', data);
     const { action, payload } = data;
     switch (action) {
       case 'register_event': {
@@ -125,39 +124,49 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
             action: 'event_handler_params',
             payload: {
               event,
-              query,
+              handlerId: handler_id,
               params: JSON.parse(paramsStr)
             }
           };
           this.send(msg);
         };
 
-        let queryString = '';
         if (typeof query !== 'string') {
           this._myChart?.on(event, query, cb, this);
-          queryString = JSON.stringify(query);
         } else {
           if (query === '__all__') {
             this._myChart?.on(event, cb, this);
           } else {
             this._myChart?.on(event, query, cb, this);
           }
-          queryString = query;
         }
-        if (this._eventHandlers[event]) {
-          const eventDict = this._eventHandlers[event];
-          if (eventDict[queryString]) {
-            const handlerDict = eventDict[queryString];
-            handlerDict[handler_id] = cb;
-          } else {
-            eventDict[queryString] = { [handler_id]: cb };
-          }
+
+        const eventDict = this._eventHandlers[event];
+
+        if (eventDict) {
+          eventDict[handler_id] = cb;
         } else {
-          this._eventHandlers[event] = { [queryString]: { [handler_id]: cb } };
+          this._eventHandlers[event] = { [handler_id]: cb };
         }
         break;
       }
+      case 'unregister_event': {
+        const { event, id_to_remove } = payload;
+        if (!id_to_remove) {
+          this._myChart?.off(event);
+          delete this._eventHandlers[event];
+        } else {
+          id_to_remove.forEach(handlerId => {
+            const cb = this._eventHandlers[event]?.[handlerId];
+            if (cb) {
+              this._myChart?.off(event, cb);
+              delete this._eventHandlers[event][handlerId];
+            }
+          });
+        }
 
+        break;
+      }
       default:
         break;
     }
@@ -186,7 +195,7 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
 
   protected _myChart?: echarts.ECharts;
 
-  private _eventHandlers: IDict<IDict<IDict<CallableFunction>>> = {};
+  private _eventHandlers: IDict<IDict<CallableFunction>> = {};
   private _resizeDebouncer = new Debouncer(() => {
     if (this.el.clientWidth > 10 && this.el.clientHeight > 10) {
       // Do not resize if the element is hidden
