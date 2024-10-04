@@ -1,5 +1,9 @@
+import typing as T
+from uuid import uuid4
 from ipywidgets import DOMWidget, widget_serialization
 from traitlets import Bool, Dict, Float, Instance, Unicode
+
+from .tools import MESSAGE_ACTION
 
 from .option.option import Option
 from ._frontend import module_name, module_version
@@ -51,3 +55,69 @@ class BaseEchartsWidget(DOMWidget):
         default_value="EN",
         help="Specify the locale.There are two builtins: 'ZH' and 'EN'",
     ).tag(sync=True)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._event_handlers: T.Dict[str, T.Dict[str, T.Callable]] = {}
+        self.on_msg(self._handle_frontend_msg)
+
+    def on(
+        self, event_name: str, query: T.Union[str, T.Dict, None], handler: T.Callable
+    ) -> str:
+        handler_id = str(uuid4())
+        if query is None:
+            query = "__all__"
+        event_dict = self._event_handlers.setdefault(event_name, {handler_id: handler})
+        if handler_id not in event_dict:
+            event_dict[handler_id] = handler
+
+        self.send(
+            {
+                "action": MESSAGE_ACTION.REGISTER_EVENT,
+                "payload": {
+                    "event": event_name,
+                    "query": query,
+                    "handler_id": handler_id,
+                },
+            }
+        )
+        return handler_id
+
+    def off(self, event_name: str, handler: T.Optional[T.Callable] = None):
+        event_dict = self._event_handlers.get(event_name, {})
+        if handler is None:
+            # Remove all handler
+            del self._event_handlers[event_name]
+            self.send(
+                {
+                    "action": MESSAGE_ACTION.UNREGISTER_EVENT,
+                    "payload": {"event": event_name},
+                }
+            )
+        else:
+            id_to_remove = []
+            for handler_id, saved_handler in event_dict.items():
+                if saved_handler == handler:
+                    id_to_remove.append(handler_id)
+
+            for uid in id_to_remove:
+                del event_dict[uid]
+            self.send(
+                {
+                    "action": MESSAGE_ACTION.UNREGISTER_EVENT,
+                    "payload": {"event": event_name, "id_to_remove": id_to_remove},
+                }
+            )
+
+    def _handle_frontend_msg(
+        self, model: "BaseEchartsWidget", msg: T.Dict, buffers: T.List
+    ) -> None:
+        action: str = msg.get("action", None)
+        payload: T.Dict = msg.get("payload", {})
+        if action == "event_handler_params":
+            event = payload.get("event", None)
+            handler_id = payload.get("handlerId", None)
+            params = payload.get("params", None)
+            handler = self._event_handlers.get(event, {}).get(handler_id, None)
+            if handler is not None:
+                handler(params)

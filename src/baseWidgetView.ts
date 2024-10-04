@@ -9,13 +9,15 @@ import * as echarts from 'echarts';
 
 import { BaseEChartsWidgetModel, INIT_PROPS } from './baseWidgetModel';
 import { isLightTheme } from './tools';
+import { IDict, IEventHandlerParams, IKernelMsg } from './types';
 
 export abstract class BaseEChartsWidgetView extends DOMWidgetView {
   initialize(parameters: WidgetView.IInitializeParameters): void {
     super.initialize(parameters);
     this.setupThemeListener();
     this.setupResizeListener();
-    this.model.on('change', this.valueChanged, this);
+    this.model.listenTo(this.model, 'change', this.valueChanged.bind(this));
+    this.model.listenTo(this.model, 'msg:custom', this.onCustomMsg.bind(this));
   }
 
   render(): void {
@@ -109,7 +111,69 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     this._myChart?.resize();
   }
 
+  onCustomMsg(data: IKernelMsg): void {
+    const { action, payload } = data;
+    switch (action) {
+      case 'register_event': {
+        const { event, query, handler_id } = payload;
+        const cb = (params: any) => {
+          const paramsStr = JSON.stringify(params, (key, value) => {
+            return key === 'event' ? undefined : value;
+          });
+          const msg: IEventHandlerParams = {
+            action: 'event_handler_params',
+            payload: {
+              event,
+              handlerId: handler_id,
+              params: JSON.parse(paramsStr)
+            }
+          };
+          this.send(msg);
+        };
+
+        if (typeof query !== 'string') {
+          this._myChart?.on(event, query, cb, this);
+        } else {
+          if (query === '__all__') {
+            this._myChart?.on(event, cb, this);
+          } else {
+            this._myChart?.on(event, query, cb, this);
+          }
+        }
+
+        const eventDict = this._eventHandlers[event];
+
+        if (eventDict) {
+          eventDict[handler_id] = cb;
+        } else {
+          this._eventHandlers[event] = { [handler_id]: cb };
+        }
+        break;
+      }
+      case 'unregister_event': {
+        const { event, id_to_remove } = payload;
+        if (!id_to_remove) {
+          this._myChart?.off(event);
+          delete this._eventHandlers[event];
+        } else {
+          id_to_remove.forEach(handlerId => {
+            const cb = this._eventHandlers[event]?.[handlerId];
+            if (cb) {
+              this._myChart?.off(event, cb);
+              delete this._eventHandlers[event][handlerId];
+            }
+          });
+        }
+
+        break;
+      }
+      default:
+        break;
+    }
+  }
   abstract _createOptionDict(): any;
+
+  static themeManager: IThemeManager | null = null;
 
   protected recreateChart(): void {
     this._myChart?.dispose();
@@ -129,13 +193,13 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     window.addEventListener('resize', () => this._resizeDebouncer.invoke());
   }
 
+  protected _myChart?: echarts.ECharts;
+
+  private _eventHandlers: IDict<IDict<CallableFunction>> = {};
   private _resizeDebouncer = new Debouncer(() => {
     if (this.el.clientWidth > 10 && this.el.clientHeight > 10) {
       // Do not resize if the element is hidden
       this._myChart?.resize();
     }
   }, 100);
-
-  static themeManager: IThemeManager | null = null;
-  protected _myChart?: echarts.ECharts;
 }

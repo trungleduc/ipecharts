@@ -162,6 +162,20 @@ display(button, chart)
 
 ![ipechart2](./docs/source/images/ipechart3.gif)
 
+### Customize the chart initialization
+
+Both `EChartsWidget` and `EChartsRawWidget` classes can customize the [Echarts init parameters](https://echarts.apache.org/en/api.html#echarts.init), for example:
+
+```python
+
+chart = EChartsWidget(
+    option=option, renderer="svg", width="300px", height="300px", use_dirty_rect=True
+)
+
+```
+
+The init parameters need to be converted to the snake case format.
+
 ### Customize the chart container style
 
 Both `EChartsWidget` and `EChartsRawWidget` classes allow you to customize the style of the chart container by setting the style attribute. The style attribute accepts a dictionary where keys are CSS property names in camelCase or kebab-case (as strings), and values are the corresponding CSS values.
@@ -222,54 +236,22 @@ chart.style = {
 
 https://github.com/user-attachments/assets/e4245101-8dff-40a9-a4d4-1f75a06b88c4
 
-## Contributing
+### Event handling
 
-### Development install
+Event-handling functions can be added to `EChartsWidget` and `EChartsRawWidget` using the same syntax as [in the Javascript version](https://echarts.apache.org/handbook/en/concepts/event/):
 
-Note: You will need `markdownify`, `autodoc-traits`, `sphinx` to generate the code
+```python
+chart = EChartsWidget(option=option)
 
-The `jlpm` command is JupyterLab's pinned version of
-[yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
-`yarn` or `npm` in lieu of `jlpm` below.
+def callback(params):
+    print(params)
 
-```bash
-# Clone the repo to your local environment
-# Change directory to the ipecharts directory
-# Install package in development mode
-pip install -e "."
-# Link your development version of the extension with JupyterLab
-jupyter labextension develop . --overwrite
-# Rebuild extension Typescript source after making changes
-jlpm build
+# Add event handlers
+chart.on('click', None, callback) # Listen to all click event
+chart.on('click', 'series.line', callback) # Using string query
+chart.on('mouseover', {'seriesIndex': 1, 'name': 'xx'}, callback) # Using object query
+
+# Remove event handlers
+chart.off('click') # Remove all handler on click event
+chart.off('mouseover', callback) # Remove selected handler.
 ```
-
-You can watch the source directory and run JupyterLab at the same time in different terminals to watch for changes in the extension's source and automatically rebuild the extension.
-
-```bash
-# Watch the source directory in one terminal, automatically rebuilding when needed
-jlpm watch
-# Run JupyterLab in another terminal
-jupyter lab
-```
-
-With the watch command running, every saved change will immediately be built locally and available in your running JupyterLab. Refresh JupyterLab to load the change in your browser (you may need to wait several seconds for the extension to be rebuilt).
-
-By default, the `jlpm build` command generates the source maps for this extension to make it easier to debug using the browser dev tools. To also generate source maps for the JupyterLab core extensions, you can run the following command:
-
-```bash
-jupyter lab build --minimize=False
-```
-
-### Development uninstall
-
-```bash
-pip uninstall ipecharts
-```
-
-In development mode, you will also need to remove the symlink created by `jupyter labextension develop`
-command. To find its location, you can run `jupyter labextension list` to figure out where the `labextensions`
-folder is located. Then you can remove the symlink named `ipecharts` within that folder.
-
-### Packaging the extension
-
-See [RELEASE](RELEASE.md)

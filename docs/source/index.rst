@@ -164,6 +164,20 @@ By using the Traitlets to configure your widget. You can use `EChartsWidget` wit
 .. note::
  Reference to the series configurations can be found `here <https://ipecharts.readthedocs.io/en/latest/api/ipecharts.option.seriesitems.html>`_, but it is more legible to use directly the `documentation of Echarts <https://echarts.apache.org/en/option.html>`_.
 
+
+Customize the chart initialization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Both ``EChartsWidget`` and ``EChartsRawWidget`` classes can customize the `Echarts init parameters <https://echarts.apache.org/en/api.html#echarts.init>`, for example:
+
+.. code-block:: python
+
+    chart = EChartsWidget(
+        option=option, renderer="svg", width="300px", height="300px", use_dirty_rect=True
+    )
+
+The init parameters need to be converted to the snake case format.
+
 Customize the chart container style
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -219,6 +233,28 @@ After the widget has been created and displayed, you can update its style by mod
     }
 
     # The widget will automatically update to reflect the new styles.
+
+
+Event handling
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Event-handling functions can be added to ``EChartsWidget`` and ``EChartsRawWidget`` using the same syntax as `in the Javascript version <https://echarts.apache.org/handbook/en/concepts/event/>`:
+
+.. code-block:: python
+
+    chart = EChartsWidget(option=option)
+
+    def callback(params):
+        print(params)
+
+    # Add event handlers
+    chart.on('click', None, callback) # Listen to all click event
+    chart.on('click', 'series.line', callback) # Using string query
+    chart.on('mouseover', {'seriesIndex': 1, 'name': 'xx'}, callback) # Using object query
+
+    # Remove event handlers
+    chart.off('click') # Remove all handler on click event
+    chart.off('mouseover', callback) # Remove selected handler.
 
 
 API Reference
