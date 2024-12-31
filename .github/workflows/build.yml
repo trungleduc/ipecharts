@@ -119,14 +119,15 @@ jobs:
 
       - name: Install browser
         shell: bash -l {0}
-        run: npx playwright install chromium
         working-directory: ui-tests
+        run: |
+          jlpm install
+          npx playwright install chromium
 
       - name: Execute integration tests
         shell: bash -l {0}
         working-directory: ui-tests
         run: |
-          jlpm install
           npx playwright test
 
       - name: Upload Playwright Test report

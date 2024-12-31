@@ -167,6 +167,10 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
 
         break;
       }
+      case 'dispatch_action': {
+        this._myChart?.dispatchAction(payload);
+        break;
+      }
       default:
         break;
     }

@@ -18,6 +18,7 @@ Submodules
    ipecharts.baseechartswidget
    ipecharts.basewidget
    ipecharts.echarts
+   ipecharts.tools
 
 Module contents
 ---------------
