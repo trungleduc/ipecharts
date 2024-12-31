@@ -2,6 +2,23 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.1.0
+
+([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.0.8...c250f7f92e8d8359d6b729da4159f8104ac97f4a))
+
+### Enhancements made
+
+- Support chart actions [#23](https://github.com/trungleduc/ipecharts/pull/23) ([@trungleduc](https://github.com/trungleduc))
+- Add event [#21](https://github.com/trungleduc/ipecharts/pull/21) ([@trungleduc](https://github.com/trungleduc))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2024-10-02&to=2024-12-31&type=c))
+
+[@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2024-10-02..2024-12-31&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.0.8
 
 ([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.0.7...04dd1d26c7c736bd1cee470cb135072882b43e24))
@@ -28,8 +45,6 @@
 ([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2024-09-24&to=2024-10-02&type=c))
 
 [@dfguerrerom](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Adfguerrerom+updated%3A2024-09-24..2024-10-02&type=Issues) | [@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2024-09-24..2024-10-02&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.0.7
 
