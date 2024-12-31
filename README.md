@@ -255,3 +255,18 @@ chart.on('mouseover', {'seriesIndex': 1, 'name': 'xx'}, callback) # Using object
 chart.off('click') # Remove all handler on click event
 chart.off('mouseover', callback) # Remove selected handler.
 ```
+
+### Chart actions
+
+Chart actions supported by ECharts can by triggered by the `EChartsWidget.dispatchAction` or `EChartsRawWidget.dispatchAction` method. This method takes the same payload as [in the Javascript version](https://echarts.apache.org/en/api.html#action):
+
+```
+chart = EChartsWidget(option=option)
+chart.dispatchAction({
+    'type': 'highlight',
+    'seriesIndex': 0,
+    'dataIndex': 1
+  })
+```
+
+![ipechart](./docs/source/images/ipecharts_action.gif)

@@ -256,6 +256,21 @@ Event-handling functions can be added to ``EChartsWidget`` and ``EChartsRawWidge
     chart.off('click') # Remove all handler on click event
     chart.off('mouseover', callback) # Remove selected handler.
 
+Chart actions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Chart actions supported by ECharts can by triggered by the ``EChartsWidget.dispatchAction`` or ``EChartsRawWidget.dispatchAction`` method. This method takes the same payload as [in the Javascript version](https://echarts.apache.org/en/api.html#action):
+
+.. code-block:: python
+
+  chart = EChartsWidget(option=option)
+  chart.dispatchAction({
+      'type': 'highlight',
+      'seriesIndex': 0,
+      'dataIndex': 1
+    })
+
+.. figure:: images/ipecharts_action.gif
 
 API Reference
 ********************************

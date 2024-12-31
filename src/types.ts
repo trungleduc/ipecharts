@@ -32,7 +32,15 @@ export interface IUnregisterEventMsg {
   payload: { event: string; id_to_remove?: string[] };
 }
 
-export type IKernelMsg = IRegisterEventMsg | IUnregisterEventMsg;
+export interface IDispatchActionMsg {
+  action: 'dispatch_action';
+  payload: echarts.Payload;
+}
+
+export type IKernelMsg =
+  | IRegisterEventMsg
+  | IUnregisterEventMsg
+  | IDispatchActionMsg;
 
 export interface IEventHandlerParams {
   action: 'event_handler_params';

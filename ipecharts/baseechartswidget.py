@@ -109,6 +109,14 @@ class BaseEchartsWidget(DOMWidget):
                 }
             )
 
+    def dispatchAction(self, payload: T.Dict):
+        self.send(
+            {
+                "action": MESSAGE_ACTION.DISPATCH_ACTION,
+                "payload": payload,
+            }
+        )
+
     def _handle_frontend_msg(
         self, model: "BaseEchartsWidget", msg: T.Dict, buffers: T.List
     ) -> None:
