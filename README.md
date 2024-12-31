@@ -260,7 +260,7 @@ chart.off('mouseover', callback) # Remove selected handler.
 
 Chart actions supported by ECharts can by triggered by the `EChartsWidget.dispatchAction` or `EChartsRawWidget.dispatchAction` method. This method takes the same payload as [in the Javascript version](https://echarts.apache.org/en/api.html#action):
 
-```
+```python
 chart = EChartsWidget(option=option)
 chart.dispatchAction({
     'type': 'highlight',
