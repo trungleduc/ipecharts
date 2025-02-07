@@ -28,13 +28,16 @@
         "url": "https://github.com/trungleduc/ipecharts.git"
     },
     "scripts": {
-        "build": "jlpm generate_code && jlpm build:lib && jlpm build:labextension:dev",
-        "build:prod": "jlpm clean && jlpm generate_code && jlpm build:lib:prod && jlpm build:labextension",
+        "build": "jlpm generate_code && jlpm build:all",
+        "build:prod": "jlpm clean && jlpm generate_code && jlpm build:all:prod",
+        "build:all": "run-p build:labextension:dev build:nbextension",
+        "build:all:prod": "run-p build:labextension build:nbextension",
         "generate_code": "python -m generate_code.main",
-        "build:labextension": "jupyter labextension build .",
-        "build:labextension:dev": "jupyter labextension build --development True .",
+        "build:labextension": "jlpm build:lib:prod && jupyter labextension build .",
+        "build:labextension:dev": "jlpm build:lib && jupyter labextension build --development True .",
         "build:lib": "tsc --sourceMap",
         "build:lib:prod": "tsc",
+        "build:nbextension": "webpack --mode=production",
         "clean": "jlpm clean:lib",
         "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
         "clean:lintcache": "rimraf .eslintcache .stylelintcache",
@@ -50,9 +53,10 @@
         "prettier:check": "jlpm prettier:base --check",
         "stylelint": "jlpm stylelint:check --fix",
         "stylelint:check": "stylelint --cache \"style/**/*.css\"",
-        "watch": "run-p watch:src watch:labextension",
+        "watch": "run-p watch:src watch:labextension watch:nbextension",
         "watch:src": "tsc -w --sourceMap",
-        "watch:labextension": "jupyter labextension watch ."
+        "watch:labextension": "jupyter labextension watch .",
+        "watch:nbextension": "webpack --mode=development --watch"
     },
     "dependencies": {
         "@jupyter-widgets/base": "^1.1.10 || ^2 || ^3 || ^4 || ^5 || ^6",
@@ -69,7 +73,7 @@
         "@types/react-addons-linked-state-mixin": "^0.14.22",
         "@typescript-eslint/eslint-plugin": "^6.1.0",
         "@typescript-eslint/parser": "^6.1.0",
-        "css-loader": "^6.7.1",
+        "css-loader": "^7.1.2",
         "eslint": "^8.36.0",
         "eslint-config-prettier": "^8.8.0",
         "eslint-plugin-prettier": "^5.0.0",
@@ -83,7 +87,10 @@
         "stylelint-config-standard": "^34.0.0",
         "stylelint-csstree-validator": "^3.0.0",
         "stylelint-prettier": "^4.0.0",
+        "ts-loader": "^9.5.2",
         "typescript": "~5.0.2",
+        "webpack": "^5.97.1",
+        "webpack-cli": "^6.0.1",
         "yjs": "^13.5.0"
     },
     "sideEffects": [

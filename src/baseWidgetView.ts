@@ -3,7 +3,7 @@
 import 'echarts-gl';
 
 import { DOMWidgetView, WidgetView } from '@jupyter-widgets/base';
-import { IThemeManager } from '@jupyterlab/apputils';
+import { type IThemeManager } from '@jupyterlab/apputils';
 import { Debouncer } from '@lumino/polling';
 import * as echarts from 'echarts';
 
@@ -73,6 +73,7 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
       height,
       locale
     };
+    console.log("INIT OPTIONS", this);
     this._myChart = echarts.init(this.el, theme, initOptions);
     this._myChart.setOption(this._createOptionDict());
   }

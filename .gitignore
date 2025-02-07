@@ -8,6 +8,7 @@ node_modules/
 .ipynb_checkpoints
 *.tsbuildinfo
 ipecharts/labextension
+ipecharts/nbextension
 # Version file is handled by hatchling
 ipecharts/_version.py
 

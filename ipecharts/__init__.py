@@ -16,3 +16,14 @@ except ImportError:
 
 def _jupyter_labextension_paths():
     return [{"src": "labextension", "dest": "ipecharts"}]
+
+
+def _jupyter_nbextension_paths():
+    return [
+        {
+            "section": "notebook",
+            "src": "nbextension",
+            "dest": "ipecharts",
+            "require": "ipecharts/extension",
+        }
+    ]
