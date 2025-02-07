@@ -8,7 +8,7 @@ if (window.require) {
     window.require.config({
       map: {
         "*": {
-          "jupyter-vuetify": "nbextensions/jupyter-vuetify/index",
+          "ipecharts": "nbextensions/ipecharts/index",
         },
       },
     });

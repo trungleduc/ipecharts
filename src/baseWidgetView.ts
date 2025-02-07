@@ -73,7 +73,6 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
       height,
       locale
     };
-    console.log("INIT OPTIONS", this);
     this._myChart = echarts.init(this.el, theme, initOptions);
     this._myChart.setOption(this._createOptionDict());
   }
