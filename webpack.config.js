@@ -4,18 +4,22 @@ const version = require('./package.json').version;
 // Custom webpack rules
 const rules = [
   { test: /\.ts$/, loader: 'ts-loader' },
-  { test: /\.css$/, use: ['style-loader', 'css-loader']},
+  { test: /\.css$/, use: ['style-loader', 'css-loader'] },
   {
     test: /\.(woff|woff2|eot|ttf|otf)$/,
-    type: "asset/resource",
-  },
+    type: 'asset/resource'
+  }
 ];
 
 // Packages that shouldn't be bundled but loaded at runtime
-const externals = ['@jupyter-widgets/base', '@jupyterlab/application', '@jupyterlab/apputils'];
+const externals = [
+  '@jupyter-widgets/base',
+  '@jupyterlab/application',
+  '@jupyterlab/apputils'
+];
 
 const resolve = {
-  extensions: [".ts", ".js"]
+  extensions: ['.ts', '.js']
 };
 
 module.exports = [
@@ -31,14 +35,14 @@ module.exports = [
       filename: 'extension.js',
       path: path.resolve(__dirname, 'ipecharts', 'nbextension'),
       libraryTarget: 'amd',
-      publicPath: '',
+      publicPath: ''
     },
     module: {
       rules: rules
     },
     devtool: 'source-map',
     externals,
-    resolve,
+    resolve
   },
   /**
    * Embeddable ipecharts bundle
@@ -53,19 +57,19 @@ module.exports = [
   {
     entry: './src/notebook.ts',
     output: {
-        filename: 'index.js',
-        path: path.resolve(__dirname, 'ipecharts', 'nbextension'),
-        libraryTarget: 'amd',
-        // Since the library isn't published to unpkg yet, we can't use these
-        // Uncomment when publishing is set up, and everything should continue working 
-        // library: "ipecharts",
-        // publicPath: 'https://unpkg.com/ipecharts@' + version + '/dist/'
+      filename: 'index.js',
+      path: path.resolve(__dirname, 'ipecharts', 'nbextension'),
+      libraryTarget: 'amd'
+      // Since the library isn't published to unpkg yet, we can't use these
+      // Uncomment when publishing is set up, and everything should continue working
+      // library: "ipecharts",
+      // publicPath: 'https://unpkg.com/ipecharts@' + version + '/dist/'
     },
     devtool: 'source-map',
     module: {
-        rules: rules
+      rules: rules
     },
     externals,
-    resolve,
-  },
+    resolve
+  }
 ];

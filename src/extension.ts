@@ -4,18 +4,17 @@
 
 // Configure requirejs
 if (window.require) {
-    // @ts-ignore
-    window.require.config({
-      map: {
-        "*": {
-          "ipecharts": "nbextensions/ipecharts/index",
-        },
-      },
-    });
-  }
-  
-  // Export the required load_ipython_extension
-  module.exports = {
-    load_ipython_extension() {},
-  };
-  
+  // @ts-expect-error TypeScript thinks window.require is of type NodeJS.Require, which doesn't support config
+  window.require.config({
+    map: {
+      '*': {
+        ipecharts: 'nbextensions/ipecharts/index'
+      }
+    }
+  });
+}
+
+// Export the required load_ipython_extension
+module.exports = {
+  load_ipython_extension() {}
+};
