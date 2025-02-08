@@ -2,6 +2,26 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.2.0
+
+([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.1.0...fa4727d1fb807d44b2ff08b411587fea229f3a15))
+
+### Enhancements made
+
+- feat: make ipecharts compatible with notebook\<7 [#26](https://github.com/trungleduc/ipecharts/pull/26) ([@iisakkirotko](https://github.com/iisakkirotko))
+
+### Maintenance and upkeep improvements
+
+- Bump upload artifact action [#27](https://github.com/trungleduc/ipecharts/pull/27) ([@trungleduc](https://github.com/trungleduc))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2024-12-31&to=2025-02-08&type=c))
+
+[@iisakkirotko](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Aiisakkirotko+updated%3A2024-12-31..2025-02-08&type=Issues) | [@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2024-12-31..2025-02-08&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.1.0
 
 ([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.0.8...c250f7f92e8d8359d6b729da4159f8104ac97f4a))
@@ -16,8 +36,6 @@
 ([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2024-10-02&to=2024-12-31&type=c))
 
 [@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2024-10-02..2024-12-31&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.0.8
 
