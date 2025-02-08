@@ -44,6 +44,26 @@ module.exports = [
     externals,
     resolve
   },
+  /** Bundle for the notebook containing the custom widget views and models
+   *
+   * This bundle contains the implementation for the custom widget views and
+   * custom widget.
+   * It must be an amd module
+   */
+  {
+    entry: './src/notebook.ts',
+    output: {
+      filename: 'index.js',
+      path: path.resolve(__dirname, 'ipecharts', 'nbextension'),
+      libraryTarget: 'amd'
+    },
+    devtool: 'source-map',
+    module: {
+      rules: rules
+    },
+    externals,
+    resolve
+  },
   /**
    * Embeddable ipecharts bundle
    *
@@ -58,12 +78,10 @@ module.exports = [
     entry: './src/notebook.ts',
     output: {
       filename: 'index.js',
-      path: path.resolve(__dirname, 'ipecharts', 'nbextension'),
-      libraryTarget: 'amd'
-      // Since the library isn't published to unpkg yet, we can't use these
-      // Uncomment when publishing is set up, and everything should continue working
-      // library: "ipecharts",
-      // publicPath: 'https://unpkg.com/ipecharts@' + version + '/dist/'
+      path: path.resolve(__dirname, 'dist'),
+      libraryTarget: 'amd',
+      library: 'ipecharts',
+      publicPath: 'https://unpkg.com/ipecharts@' + version + '/dist/'
     },
     devtool: 'source-map',
     module: {
