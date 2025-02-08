@@ -1,0 +1,5 @@
+{
+  "load_extensions": {
+    "ipecharts/extension": true
+  }
+}

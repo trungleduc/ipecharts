@@ -3,7 +3,7 @@
 import 'echarts-gl';
 
 import { DOMWidgetView, WidgetView } from '@jupyter-widgets/base';
-import { IThemeManager } from '@jupyterlab/apputils';
+import { type IThemeManager } from '@jupyterlab/apputils';
 import { Debouncer } from '@lumino/polling';
 import * as echarts from 'echarts';
 

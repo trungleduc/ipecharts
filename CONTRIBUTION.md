@@ -4,6 +4,8 @@
 
 Note: You will need `markdownify`, `autodoc-traits`, `sphinx` to generate the code
 
+### Jupyter Lab
+
 The `jlpm` command is JupyterLab's pinned version of
 [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
 `yarn` or `npm` in lieu of `jlpm` below.
@@ -34,6 +36,23 @@ By default, the `jlpm build` command generates the source maps for this extensio
 
 ```bash
 jupyter lab build --minimize=False
+```
+
+### Jupyter Notebook
+
+For earlier notebook version (i.e. <7), we need a slightly different approach. (If you're using `npm` instead of `jlpm`, just substitute the command for `npm run`.)
+
+```bash
+pip install -e "."
+jlpm build
+jupyter nbextension install --py --symlink --sys-prefix ipecharts
+jupyter nbextension enable --py --sys-prefix
+```
+
+You can also watch the front-end of the extension with
+
+```bash
+jlpm watch
 ```
 
 ### Development uninstall

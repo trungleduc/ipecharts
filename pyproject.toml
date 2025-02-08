@@ -48,7 +48,9 @@ exclude = [".github", "binder", "generate_code"]
 
 [tool.hatch.build.targets.wheel.shared-data]
 "ipecharts/labextension" = "share/jupyter/labextensions/ipecharts"
+"ipecharts/nbextension" = "share/jupyter/nbextensions/ipecharts"
 "install.json" = "share/jupyter/labextensions/ipecharts/install.json"
+"ipecharts.json" = "etc/jupyter/nbconfig/notebook.d/ipecharts.json"
 
 [tool.hatch.build.hooks.version]
 path = "ipecharts/_version.py"
@@ -59,9 +61,11 @@ build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
     "ipecharts/labextension/static/style.js",
     "ipecharts/labextension/package.json",
+    "ipecharts/nbextension/index.js",
 ]
 skip-if-exists = [
     "ipecharts/labextension/static/style.js",
+    "ipecharts/nbextension/index.js",
     "ipecharts/_option.py",
 ]
 
