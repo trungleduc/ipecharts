@@ -51,4 +51,8 @@ export interface IEventHandlerParams {
   };
 }
 
-export type IFrontendMsg = IEventHandlerParams;
+export interface IWidgetInitMessage {
+  action: 'widget_init';
+}
+
+export type IFrontendMsg = IEventHandlerParams | IWidgetInitMessage;

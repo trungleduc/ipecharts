@@ -9,7 +9,12 @@ import * as echarts from 'echarts';
 
 import { BaseEChartsWidgetModel, INIT_PROPS } from './baseWidgetModel';
 import { isLightTheme } from './tools';
-import { IDict, IEventHandlerParams, IKernelMsg } from './types';
+import {
+  IDict,
+  IEventHandlerParams,
+  IKernelMsg,
+  IWidgetInitMessage
+} from './types';
 
 export abstract class BaseEChartsWidgetView extends DOMWidgetView {
   initialize(parameters: WidgetView.IInitializeParameters): void {
@@ -75,6 +80,11 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     };
     this._myChart = echarts.init(this.el, theme, initOptions);
     this._myChart.setOption(this._createOptionDict());
+
+    const msg: IWidgetInitMessage = {
+      action: 'widget_init'
+    };
+    this.send(msg);
   }
 
   valueChanged(changedModel?: BaseEChartsWidgetModel) {
@@ -116,6 +126,7 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     switch (action) {
       case 'register_event': {
         const { event, query, handler_id } = payload;
+        console.log('register_event', event, query, handler_id);
         const cb = (params: any) => {
           const paramsStr = JSON.stringify(params, (key, value) => {
             return key === 'event' ? undefined : value;
