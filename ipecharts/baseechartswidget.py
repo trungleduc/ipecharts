@@ -58,30 +58,18 @@ class BaseEchartsWidget(DOMWidget):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._event_handlers: T.Dict[str, T.Dict[str, T.Callable]] = {}
+        self._event_handlers: T.Dict[str, T.Dict[str, T.Tuple[T.Callable, str]]] = {}
         self.on_msg(self._handle_frontend_msg)
+        self._cb_queue = []
+        self._widget_initialized = False
 
     def on(
         self, event_name: str, query: T.Union[str, T.Dict, None], handler: T.Callable
     ) -> str:
-        handler_id = str(uuid4())
-        if query is None:
-            query = "__all__"
-        event_dict = self._event_handlers.setdefault(event_name, {handler_id: handler})
-        if handler_id not in event_dict:
-            event_dict[handler_id] = handler
-
-        self.send(
-            {
-                "action": MESSAGE_ACTION.REGISTER_EVENT,
-                "payload": {
-                    "event": event_name,
-                    "query": query,
-                    "handler_id": handler_id,
-                },
-            }
-        )
-        return handler_id
+        if not self._widget_initialized:
+            self._cb_queue.append((event_name, query, handler))
+            return None
+        return self._handle_event_callback(event_name, query, handler)
 
     def off(self, event_name: str, handler: T.Optional[T.Callable] = None):
         event_dict = self._event_handlers.get(event_name, {})
@@ -97,7 +85,7 @@ class BaseEchartsWidget(DOMWidget):
         else:
             id_to_remove = []
             for handler_id, saved_handler in event_dict.items():
-                if saved_handler == handler:
+                if saved_handler[0] == handler:
                     id_to_remove.append(handler_id)
 
             for uid in id_to_remove:
@@ -117,6 +105,53 @@ class BaseEchartsWidget(DOMWidget):
             }
         )
 
+    def _handle_event_callback(
+        self, event_name: str, query: T.Union[str, T.Dict, None], handler: T.Callable
+    ) -> str:
+        handler_id = str(uuid4())
+
+        if query is None:
+            query = "__all__"
+        event_dict = self._event_handlers.setdefault(
+            event_name, {handler_id: (handler, query)}
+        )
+        if handler_id not in event_dict:
+            event_dict[handler_id] = (handler, query)
+
+        self.send(
+            {
+                "action": MESSAGE_ACTION.REGISTER_EVENT,
+                "payload": {
+                    "event": event_name,
+                    "query": query,
+                    "handler_id": handler_id,
+                },
+            }
+        )
+        return handler_id
+
+    def _handle_widget_init(self):
+        self._widget_initialized = True
+        if len(self._cb_queue) > 0:
+            for item in self._cb_queue:
+                self._handle_event_callback(*item)
+            self._cb_queue = []
+        else:
+            for event_name in self._event_handlers:
+                for handler_id, (handler, query) in self._event_handlers[
+                    event_name
+                ].items():
+                    self.send(
+                        {
+                            "action": MESSAGE_ACTION.REGISTER_EVENT,
+                            "payload": {
+                                "event": event_name,
+                                "query": query,
+                                "handler_id": handler_id,
+                            },
+                        }
+                    )
+
     def _handle_frontend_msg(
         self, model: "BaseEchartsWidget", msg: T.Dict, buffers: T.List
     ) -> None:
@@ -126,6 +161,11 @@ class BaseEchartsWidget(DOMWidget):
             event = payload.get("event", None)
             handler_id = payload.get("handlerId", None)
             params = payload.get("params", None)
-            handler = self._event_handlers.get(event, {}).get(handler_id, None)
+            handler, quey = self._event_handlers.get(event, {}).get(
+                handler_id, (None, None)
+            )
             if handler is not None:
                 handler(params)
+
+        if action == "widget_init":
+            self._handle_widget_init()
