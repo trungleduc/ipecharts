@@ -2,6 +2,22 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.2.1
+
+([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.2.0...2cb47f072ac80cb67e4469755e47a434add0b7b0))
+
+### Bugs fixed
+
+- Fix event init [#29](https://github.com/trungleduc/ipecharts/pull/29) ([@trungleduc](https://github.com/trungleduc))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2025-02-08&to=2025-03-05&type=c))
+
+[@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2025-02-08..2025-03-05&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.2.0
 
 ([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.1.0...fa4727d1fb807d44b2ff08b411587fea229f3a15))
@@ -19,8 +35,6 @@
 ([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2024-12-31&to=2025-02-08&type=c))
 
 [@iisakkirotko](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Aiisakkirotko+updated%3A2024-12-31..2025-02-08&type=Issues) | [@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2024-12-31..2025-02-08&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.1.0
 

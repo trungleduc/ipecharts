@@ -25,5 +25,5 @@ Module contents
 
 .. automodule:: ipecharts
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
