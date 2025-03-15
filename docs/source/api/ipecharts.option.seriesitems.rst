@@ -45,5 +45,5 @@ Module contents
 
 .. automodule:: ipecharts.option.seriesitems
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
