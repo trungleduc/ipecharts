@@ -61,5 +61,5 @@ Module contents
 
 .. automodule:: ipecharts.option
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

@@ -15,5 +15,5 @@ Module contents
 
 .. automodule:: ipecharts.option.visualmapitems
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

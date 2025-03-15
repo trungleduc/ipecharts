@@ -2,6 +2,22 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.3.0
+
+([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.2.1...99c2b64215de91658b75927c4523f0766f217842))
+
+### Enhancements made
+
+- Allow sending raw js function [#31](https://github.com/trungleduc/ipecharts/pull/31) ([@trungleduc](https://github.com/trungleduc))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2025-03-05&to=2025-03-15&type=c))
+
+[@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2025-03-05..2025-03-15&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.2.1
 
 ([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.2.0...2cb47f072ac80cb67e4469755e47a434add0b7b0))
@@ -15,8 +31,6 @@
 ([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2025-02-08&to=2025-03-05&type=c))
 
 [@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2025-02-08..2025-03-05&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.2.0
 
