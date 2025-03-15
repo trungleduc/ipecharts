@@ -45,6 +45,7 @@ export class {{class_name}}Model extends WidgetModel {
         const jsonObject = JSON.parse(decodedString);
         const fn = new Function(...jsonObject);
         dict[key] = fn;
+        continue;
       }
       if (val !== undefined && val !== null && !key.startsWith('_')) {
         dict[key] = val;
