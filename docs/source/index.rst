@@ -272,6 +272,27 @@ Chart actions supported by ECharts can by triggered by the ``EChartsWidget.dispa
 
 .. figure:: images/ipecharts_action.gif
 
+
+Using JS function in chart options
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``EChartsWidget`` and ``EChartsRawWidget`` support passing JS functions to
+the chart options via the helper ``ipecharts.tools.encode_js_function``.  For
+example, to use a JS function as the tooltip formatter, you can do the
+following:
+
+.. code-block:: python
+
+    from ipecharts.tools import encode_js_function
+    from ipecharts.option import Tooltip
+
+    formatter = encode_js_function(['params'], "return params.value[3] + ': ' + params.value[0];")
+    tooltip = Tooltip(trigger='item', formatter=formatter)
+
+The ``encode_js_function`` function takes a list of parameter names and a
+string containing the JS function body.  ``ipecharts`` will automatically
+generate the JS function for the chart options in the front-end.
+
 API Reference
 ********************************
 

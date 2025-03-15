@@ -39,6 +39,14 @@ export class {{class_name}}Model extends WidgetModel {
         }
         continue;
       }
+      if (typeof val === 'string' && val.startsWith('__ipecharts_jsfn__::')) {
+        const funcStr = val.replace('__ipecharts_jsfn__::', '');
+        const decodedString = atob(funcStr);
+        const jsonObject = JSON.parse(decodedString);
+        const fn = new Function(...jsonObject);
+        dict[key] = fn;
+        continue;
+      }
       if (val !== undefined && val !== null && !key.startsWith('_')) {
         dict[key] = val;
       }

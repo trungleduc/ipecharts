@@ -3,5 +3,5 @@ ipecharts.option.angleaxis module
 
 .. automodule:: ipecharts.option.angleaxis
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:

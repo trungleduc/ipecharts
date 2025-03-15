@@ -2,6 +2,7 @@
 // Distributed under the terms of the Modified BSD License.
 import { BaseEChartsWidgetModel } from './baseWidgetModel';
 import { BaseEChartsWidgetView } from './baseWidgetView';
+import { processRawOption } from './tools';
 
 export class EChartsRawWidgetModel extends BaseEChartsWidgetModel {
   static model_name = 'EChartsRawWidgetModel';
@@ -10,7 +11,9 @@ export class EChartsRawWidgetModel extends BaseEChartsWidgetModel {
 
 export class EChartsRawWidgetView extends BaseEChartsWidgetView {
   _createOptionDict(): any {
-    return this.model.get('option');
+    const option = JSON.parse(JSON.stringify(this.model.get('option')));
+    processRawOption(option);
+    return option;
   }
 
   static themeManager = BaseEChartsWidgetView.themeManager;
