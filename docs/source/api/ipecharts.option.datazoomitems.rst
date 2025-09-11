@@ -15,5 +15,5 @@ Module contents
 
 .. automodule:: ipecharts.option.datazoomitems
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:

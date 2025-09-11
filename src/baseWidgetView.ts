@@ -27,8 +27,7 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
 
   render(): void {
     super.render();
-
-    const widget = this.luminoWidget;
+    const widget = this.luminoWidget ?? this.pWidget;
     if (['auto', null].includes(this.model.get('width'))) {
       widget.addClass('echarts-widget-auto-width');
     }
@@ -38,7 +37,7 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     this.setStyle();
   }
 
-  processLuminoMessage(msg: any): void {
+  _processLuminoMessage(msg: any): void {
     const msgType = msg.type as string;
     if (msgType === 'after-attach') {
       this.initECharts();
@@ -47,6 +46,14 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
     if (msgType === 'resize') {
       this._resizeDebouncer.invoke();
     }
+  }
+
+  processPhosphorMessage(msg: any): void {
+    this._processLuminoMessage(msg);
+  }
+
+  processLuminoMessage(msg: any): void {
+    this._processLuminoMessage(msg);
   }
 
   initECharts(): void {
