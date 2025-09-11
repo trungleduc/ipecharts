@@ -3,5 +3,5 @@ ipecharts.option.zaxis3d module
 
 .. automodule:: ipecharts.option.zaxis3d
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
