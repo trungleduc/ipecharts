@@ -34,6 +34,7 @@ Submodules
    ipecharts.option.grid3d
    ipecharts.option.legend
    ipecharts.option.mapbox3d
+   ipecharts.option.matrix
    ipecharts.option.media
    ipecharts.option.option
    ipecharts.option.parallel
@@ -45,6 +46,7 @@ Submodules
    ipecharts.option.singleaxis
    ipecharts.option.stateanimation
    ipecharts.option.textstyle
+   ipecharts.option.thumbnail
    ipecharts.option.timeline
    ipecharts.option.title
    ipecharts.option.toolbox
@@ -61,5 +63,5 @@ Module contents
 
 .. automodule:: ipecharts.option
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
