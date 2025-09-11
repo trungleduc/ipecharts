@@ -2,6 +2,22 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.4.0
+
+([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.3.1...fcb5899fd3671ef14aa98dbafd7c64d44b6d19ee))
+
+### Maintenance and upkeep improvements
+
+- Bump frontend version limit [#35](https://github.com/trungleduc/ipecharts/pull/35) ([@trungleduc](https://github.com/trungleduc))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2025-09-11&to=2025-09-11&type=c))
+
+[@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2025-09-11..2025-09-11&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.3.1
 
 ([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.3.0...5b8c2b3f7c2bb5874c296479322d31b4035a1de0))
@@ -15,8 +31,6 @@
 ([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2025-03-15&to=2025-09-11&type=c))
 
 [@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2025-03-15..2025-09-11&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.3.0
 
