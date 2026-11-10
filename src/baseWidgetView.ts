@@ -212,7 +212,11 @@ export abstract class BaseEChartsWidgetView extends DOMWidgetView {
   }
 
   protected setupResizeListener(): void {
-    window.addEventListener('resize', () => this._resizeDebouncer.invoke());
+    // The element can change size, or become visible, without a window
+    // resize or a Lumino resize message (CSS from a parent, a dialog, a tab).
+    const observer = new ResizeObserver(() => this._resizeDebouncer.invoke());
+    observer.observe(this.el);
+    this.once('remove', () => observer.disconnect());
   }
 
   protected _myChart?: echarts.ECharts;
