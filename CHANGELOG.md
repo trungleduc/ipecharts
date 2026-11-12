@@ -2,6 +2,29 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.4.1
+
+([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.4.0...3847bbff4e75cb2a8e8e9c24a1f1a0844d29761d))
+
+### Enhancements made
+
+- Resize the chart when its element changes size [#39](https://github.com/trungleduc/ipecharts/pull/39) ([@dfguerrerom](https://github.com/dfguerrerom), [@trungleduc](https://github.com/trungleduc))
+
+### Maintenance and upkeep improvements
+
+- bump all [#40](https://github.com/trungleduc/ipecharts/pull/40) ([@trungleduc](https://github.com/trungleduc))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2025-09-11&to=2026-11-12&type=c))
+
+@dfguerrerom ([activity](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Adfguerrerom+updated%3A2025-09-11..2026-11-12&type=Issues)) | @trungleduc ([activity](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2025-09-11..2026-11-12&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.4.0
 
 ([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.3.1...fcb5899fd3671ef14aa98dbafd7c64d44b6d19ee))
@@ -15,8 +38,6 @@
 ([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2025-09-11&to=2025-09-11&type=c))
 
 [@trungleduc](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2025-09-11..2025-09-11&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.3.1
 

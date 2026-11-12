@@ -11,6 +11,7 @@ Submodules
    ipecharts.option.seriesitems.bar3d
    ipecharts.option.seriesitems.boxplot
    ipecharts.option.seriesitems.candlestick
+   ipecharts.option.seriesitems.chord
    ipecharts.option.seriesitems.custom
    ipecharts.option.seriesitems.effectscatter
    ipecharts.option.seriesitems.flowgl
