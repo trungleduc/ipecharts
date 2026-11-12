@@ -1,7 +1,7 @@
 name: xeus-python-kernel
 channels:
-  - https://repo.mamba.pm/emscripten-forge
-  - conda-forge
+  - https://prefix.dev/emscripten-forge
+  - https://prefix.dev/conda-forge
 dependencies:
   - xeus-python
   - ipywidgets
