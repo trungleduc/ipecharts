@@ -2,6 +2,25 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.4.2
+
+([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.4.1...638dfe03f180bdd88dd48dfe3867daf78578a690))
+
+### Maintenance and upkeep improvements
+
+- fix release ci [#41](https://github.com/trungleduc/ipecharts/pull/41) ([@trungleduc](https://github.com/trungleduc))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2026-11-12&to=2026-11-13&type=c))
+
+@trungleduc ([activity](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2026-11-12..2026-11-13&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.4.1
 
 ([Full Changelog](https://github.com/trungleduc/ipecharts/compare/v1.4.0...3847bbff4e75cb2a8e8e9c24a1f1a0844d29761d))
@@ -22,8 +41,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/trungleduc/ipecharts/graphs/contributors?from=2025-09-11&to=2026-11-12&type=c))
 
 @dfguerrerom ([activity](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Adfguerrerom+updated%3A2025-09-11..2026-11-12&type=Issues)) | @trungleduc ([activity](https://github.com/search?q=repo%3Atrungleduc%2Fipecharts+involves%3Atrungleduc+updated%3A2025-09-11..2026-11-12&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.4.0
 
